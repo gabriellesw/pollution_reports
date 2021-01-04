@@ -1,0 +1,1 @@
+from yaml_pyconf import FlaskConfig
