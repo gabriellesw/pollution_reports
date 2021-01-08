@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+{% if complaint %}
+    <h1>View Complaint</h1>
+    {% for k, v in complaint.items() %}
+        <p><b>{{ k }}:</b> {{ v }}</p>
+    {% endfor %}
+{% endif %}
+<hr>
+    <a href="{{ url_for("admin.admin_home") }}">Back</a>
+{% endblock %}

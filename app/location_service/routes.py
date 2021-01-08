@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-location_service = Blueprint("location_service", __name__)
+location_service = Blueprint("location_service", __name__, template_folder="templates")
 
 
 @location_service.route("/")

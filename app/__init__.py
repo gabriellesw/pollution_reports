@@ -1,5 +1,5 @@
 from flask import Flask
-
+from config import Config
 
 from .admin.routes import admin
 from .api.routes import api
@@ -13,7 +13,7 @@ from extensions import *
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object("config.FlaskConfig")
+    app.config.from_object(Config())
 
     db.init_app(app)
 

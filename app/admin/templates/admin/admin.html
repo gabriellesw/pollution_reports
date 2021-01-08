@@ -1,0 +1,29 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+    {% if user %}
+    <h1>Hello, {{ user.username }}!</h1>
+    {% else %}
+    <h1>Hello</h1>
+    {% endif %}
+
+    {% if complaints %}
+        <h2>Recent Complaints</h2>
+        <table>
+        <tr>
+        {% for header in complaints[0].keys() %}
+            <th>{{ header }}</th>
+        {% endfor %}
+        <td>Link</td>
+        </tr>
+            {% for complaint in complaints %}
+                <tr>
+                {% for value in complaint.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+                <td><a href="{{ url_for("admin.view_complaint", complaint_id=complaint["id"]) }}">View</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

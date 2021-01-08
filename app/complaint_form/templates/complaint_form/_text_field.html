@@ -1,0 +1,13 @@
+{% if size %}
+{% set input_size=size %}
+{% else %}
+{% set input_size=32 %}
+{% endif %}
+
+
+<p>
+    {{ field(size=input_size, placeholder=field.label.text) }}
+    {% for error in field.errors %}
+    <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+</p>

@@ -1,8 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
-mapping = Blueprint("mapping", __name__)
+mapping = Blueprint("mapping", __name__, template_folder="templates")
 
 
 @mapping.route("/")
 def mapping_home():
-    return "<h1>Mapping Home</h1>"
+    return render_template("mapping/mapping.html")

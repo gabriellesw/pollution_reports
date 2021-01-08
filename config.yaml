@@ -1,0 +1,41 @@
+defaults: &defaults
+    # Database settings
+    SQLALCHEMY_TRACK_MODIFICATIONS: false
+    SQLALCHEMY_ENGINE_OPTIONS:
+        pool_pre_ping: true
+#    DB_PORT: 5432
+
+    LOAD_FROM_ENV:
+        - "SECRET_KEY"
+#        - "AWS_SECRET_KEY"
+#        - "AWS_KEY_ID"
+        - "DB_USERNAME"
+        - "DB_PASSWORD"
+        - "DB_SERVER"
+        - "FLASK_ENV"
+        - "DB_NAME"
+
+development:
+    # General app settings
+    TESTING: True
+    DEBUG: True
+    # Database settings
+    DB_PREFIX: "sqlite:///"
+    DB_NAME: "app.db"
+    <<: *defaults
+
+testing:
+    # General app settings
+    TESTING: True
+    DEBUG: False
+    # Database settings
+    DB_PREFIX: "postgresql://"
+    <<: *defaults
+
+deployment:
+    # General app settings
+    TESTING: False
+    DEBUG: False
+    # Database settings
+    DB_PREFIX: "postgresql://"
+    <<: *defaults

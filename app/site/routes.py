@@ -1,8 +1,8 @@
-from flask import Blueprint, current_app
+from flask import Blueprint, render_template
 
-site = Blueprint("site", __name__)
+site = Blueprint("site", __name__, template_folder="templates")
 
 
 @site.route("/")
 def site_home():
-    return "<h1>Site Home</h1>"
+    return render_template("site/index.html")

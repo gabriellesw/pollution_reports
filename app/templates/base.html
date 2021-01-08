@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>{{ title }} Pollution Complaints</title>
+    {% else %}
+    <title>Pollution Complaints</title>
+    {% endif %}
+</head>
+<body>
+<div id="nav">
+    Pollution Complaints:
+    <a href="{{ url_for("site.site_home") }}">Site Home</a>
+    <a href="{{ url_for("mapping.mapping_home") }}">Pollution Maps</a>
+    <a href="{{ url_for("complaint_form.complaint_form_home") }}">Make a Complaint</a>
+
+</div>
+<hr>
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <br>{{ message }}
+    {% endfor %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+</body>
+</html>
