@@ -16,7 +16,7 @@
         form.phone_number,
     ] %}
         {% with field=field %}
-        {% include "complaint_form/_text_field.html" %}
+        {% include "complaint_form/_varchar_field.html" %}
         {% endwith %}
     {% endfor %}
 
@@ -29,25 +29,31 @@
         form.zip,
     ] %}
         {% with field=field %}
-        {% include "complaint_form/_text_field.html" %}
+        {% include "complaint_form/_varchar_field.html" %}
         {% endwith %}
     {% endfor %}
 
     <p>{{ form.type.label }}</p>
     <p>{{ form.type(size=1) }}</p>
 
-    {% with field=form.date %}
-    {% include "complaint_form/_text_field.html" %}
+    {% with field=form.observed_date %}
+    {% include "complaint_form/_date_field.html" %}
     {% endwith %}
 
     <p>{{ form.ongoing() }} {{ form.ongoing.label }}</p>
 
-    {% with field=form.polluter_search %}
-    {% include "complaint_form/_text_field.html" %}
-    {% endwith %}
+    {% for field in [
+        form.polluter_name,
+        form.polluter_address,
+        form.polluter_city,
+        form.polluter_state,
+        form.polluter_zip,
+    ] %}
+        {% include "complaint_form/_varchar_field.html" %}
+    {% endfor %}
 
     {% with field=form.description %}
-    {% include "complaint_form/_text_field.html" %}
+    {% include "complaint_form/_textarea_field.html" %}
     {% endwith %}
 
     <p>{{ form.consent_to_followup() }} {{ form.consent_to_followup.label }}</p>

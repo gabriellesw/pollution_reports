@@ -4,50 +4,91 @@ from wtforms import (
 )
 from wtforms.validators import Email, InputRequired, Length, Optional
 from app.custom_validators import Zip, Phone, ConfirmEmail
-import datetime
+
+from config import Config
+
+CONFIG = Config()
 
 
 class ComplaintForm(FlaskForm):
-    email = StringField("Email Address", validators=[Email(), InputRequired()])
+    email = StringField(
+        "Email Address",
+        validators=[Email(), InputRequired(), Length(max=CONFIG.varchar_max)]
+    )
     confirm_email = StringField("Confirm Email", validators=[
         Email(), ConfirmEmail(), InputRequired()
     ])
     phone_number = StringField("Phone", validators=[Optional(), Phone()])
     landline = BooleanField("My Phone is a Land Line")
 
-    first_name = StringField("First Name", validators=[Optional(), Length(-1, 500)])
-    last_name = StringField("Last Name", validators=[Optional(), Length(-1, 500)])
+    first_name = StringField(
+        "First Name",
+        validators=[Optional(), Length(max=CONFIG.varchar_max)]
+    )
+    last_name = StringField(
+        "Last Name",
+        validators=[Optional(), Length(max=CONFIG.varchar_max)]
+    )
 
-    street = StringField("Street Address", validators=[Optional()])
-    city = StringField("City", validators=[Optional()])
-    state = StringField("State", validators=[Optional()])
-    zip = StringField("ZIP Code", validators=[Optional(), Zip()])
-    type = SelectField("What kind of pollution is it? If you can smell the pollution, "
-                       "choose 'Odors'. Otherwise, choose the option that best "
-                       "describes what you're seeing",
+    street = StringField(
+        "Street Address",
+        validators=[Optional(), Length(max=CONFIG.varchar_max)]
+    )
+    city = StringField(
+        "City",
+        validators=[Optional(), Length(max=CONFIG.varchar_max)]
+    )
+    state = StringField("State", validators=[Optional(), Length(max=2)])
+    zip = StringField("ZIP Code", validators=[Optional(), Zip(), Length(max=5)])
+    type = SelectField("Primary Concern",
                        validators=[InputRequired()],
-                       choices=["Odors", "Smoke", "Asbestos", "Dust"]
+                       choices=CONFIG.pollution_types
                        )
-    description = TextAreaField("Describe the pollution you've witnessed in your own "
-                                "words. Odors, visible smoke or dust, sounds, "
-                                "and any other activity that might help investigators",
-                                validators=[InputRequired(), Length(-1, 10000)])
-    polluter_search = StringField("Address, Intersection or Name of Corporation "
-                                  "emitting the pollution",
-                                  validators=[InputRequired(), Length(-1, 500)])
+    description = TextAreaField(
+        "Describe the pollution you've witnessed in your own words. Odors, visible "
+        "smoke or dust, sounds, and any other activity that you think will help "
+        "investigators research and act upon your complaint.",
+        validators=[InputRequired(), Length(-1, CONFIG.text_max)]
+    )
 
-    date = DateTimeField(
+    polluter_name = StringField(
+        "Address, Intersection or Name of Corporation emitting the pollution",
+        validators=[Length(max=CONFIG.varchar_max)],
+    )
+
+    polluter_address = StringField(
+        "Street Address",
+        validators=[InputRequired(), Length(max=CONFIG.varchar_max)]
+    )
+
+    polluter_city = StringField(
+        "City",
+        validators=[InputRequired(), Length(max=CONFIG.varchar_max)]
+    )
+    polluter_state = StringField(
+        "State",
+        validators=[InputRequired(), Length(max=2)]
+    )
+    polluter_zip = StringField(
+        "Zip",
+        validators=[InputRequired(), Length(max=5)]
+    )
+
+    observed_date = DateTimeField(
         "When did you most recently witness the pollution?",
         validators=[InputRequired()],
-        format="%b %d %Y, %-I:%M %p",
-        default=datetime.datetime.utcnow()
+        format=CONFIG.date_format,
     )
     ongoing = BooleanField("Is this a regular/ongoing occurrence?")
 
-    consent_to_followup = BooleanField("I understand that a local investigator may "
-                                       "contact me about my complaint", default=1)
-    consent_to_campaign = BooleanField("I agree to be contacted about this and other "
-                                       "campaigns to stop air pollution", default=1)
+    consent_to_followup = BooleanField(
+        "I understand that a local investigator may contact me about my complaint",
+        default=1
+    )
+    consent_to_campaign = BooleanField(
+        "I agree to be contacted about this and other campaigns to stop air pollution",
+        default=1
+    )
     anonymous = BooleanField("I wish to submit my complaint anonymously")
 
     send_complaint = SubmitField("Send my complaint now!")

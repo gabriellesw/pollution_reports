@@ -1,0 +1,18 @@
+{% if cols %}
+{% set cols=cols %}
+{% else %}
+{% set cols=64 %}
+{% endif %}
+
+{% if rows %}
+{% set rows=rows %}
+{% else %}
+{% set rows=15 %}
+{% endif %}
+
+<p>
+    {{ field(rows=rows, cols=cols, placeholder=field.label.text) }}
+    {% for error in field.errors %}
+    <span style="color: red;">{{ error }}</span>
+    {% endfor %}
+</p>

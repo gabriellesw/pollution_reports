@@ -7,15 +7,16 @@ from .complaint_form.routes import complaint_form
 from .location_service.routes import location_service
 from .mapping.routes import mapping
 from .site.routes import site
+from .models import *
 
 from extensions import *
-
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
 
     db.init_app(app)
+    migrate.init_app(app, db)
 
     with app.app_context():
         app.register_blueprint(admin, url_prefix="/admin")

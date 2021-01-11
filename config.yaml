@@ -4,6 +4,16 @@ defaults: &defaults
     SQLALCHEMY_ENGINE_OPTIONS:
         pool_pre_ping: true
 #    DB_PORT: 5432
+    # Model/Form settings
+    varchar_max: 100
+    text_max: 5000
+    date_format: "%b %d %Y, %I:%M %p"
+    pollution_types:
+        - "Odors/Fumes"
+        - "Smoke"
+        - "Dust"
+        - "Asbestos"
+
 
     LOAD_FROM_ENV:
         - "SECRET_KEY"
@@ -13,7 +23,6 @@ defaults: &defaults
         - "DB_PASSWORD"
         - "DB_SERVER"
         - "FLASK_ENV"
-        - "DB_NAME"
 
 development:
     # General app settings
