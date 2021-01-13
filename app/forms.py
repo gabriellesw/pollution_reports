@@ -51,27 +51,44 @@ class ComplaintForm(FlaskForm):
         validators=[InputRequired(), Length(-1, CONFIG.text_max)]
     )
 
-    polluter_name = StringField(
+    polluter_search_field = StringField(
         "Address, Intersection or Name of Corporation emitting the pollution",
         validators=[Length(max=CONFIG.varchar_max)],
+        id="polluter_search",
+        render_kw={"onFocus": "geolocate()"},
     )
 
-    polluter_address = StringField(
-        "Street Address",
-        validators=[InputRequired(), Length(max=CONFIG.varchar_max)]
+    polluter_street_number = StringField(
+        "Street Number",
+        validators=[Length(max=CONFIG.varchar_max)],
+        id="street_number",
+        render_kw={"disabled": "true"}
+    )
+
+    polluter_street_name = StringField(
+        "Street Name",
+        validators=[Length(max=CONFIG.varchar_max)],
+        id="route",
+        render_kw={"disabled": "true"}
     )
 
     polluter_city = StringField(
         "City",
-        validators=[InputRequired(), Length(max=CONFIG.varchar_max)]
+        validators=[Length(max=CONFIG.varchar_max)],
+        id="locality",
+        render_kw={"disabled": "true"}
     )
     polluter_state = StringField(
         "State",
-        validators=[InputRequired(), Length(max=2)]
+        validators=[Length(max=2)],
+        id="administrative_area_level_1",
+        render_kw={"disabled": "true"}
     )
     polluter_zip = StringField(
         "Zip",
-        validators=[InputRequired(), Length(max=5)]
+        validators=[Length(max=5)],
+        id="postal_code",
+        render_kw={"disabled": "true"}
     )
 
     observed_date = DateTimeField(

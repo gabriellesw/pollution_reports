@@ -14,9 +14,9 @@ defaults: &defaults
         - "Dust"
         - "Asbestos"
 
-
     LOAD_FROM_ENV:
         - "SECRET_KEY"
+        - "PLACES_API_KEY"
 #        - "AWS_SECRET_KEY"
 #        - "AWS_KEY_ID"
         - "DB_USERNAME"

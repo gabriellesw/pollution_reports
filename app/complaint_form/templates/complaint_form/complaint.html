@@ -43,8 +43,9 @@
     <p>{{ form.ongoing() }} {{ form.ongoing.label }}</p>
 
     {% for field in [
-        form.polluter_name,
-        form.polluter_address,
+        form.polluter_search_field,
+        form.polluter_street_number,
+        form.polluter_street_name,
         form.polluter_city,
         form.polluter_state,
         form.polluter_zip,

@@ -15,6 +15,16 @@ def current_timestamp():
     return {"current_timestamp": datetime.datetime.utcnow().strftime(CONFIG.date_format)}
 
 
+@complaint_form.context_processor
+def places_api_key():
+    return {"places_api_key": CONFIG.PLACES_API_KEY}
+
+
+@complaint_form.route("/widget", methods=["GET", "POST"])
+def widget_sample():
+    return render_template("complaint_form/widget_sample.html")
+
+
 @complaint_form.route("/", methods=["GET", "POST"])
 def complaint_form_home():
     form = ComplaintForm()

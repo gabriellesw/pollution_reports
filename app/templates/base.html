@@ -7,8 +7,22 @@
     {% else %}
     <title>Pollution Complaints</title>
     {% endif %}
+
+    {# Always confirm that key is properly restricted  #}
+    {% if places_api_key %}
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initPolluterSearch&libraries=places&v=weekly"
+            defer>
+        </script>
+        <script defer src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    {% endif %}
+
 </head>
+{% if places_api_key %}
+<body onload="initPolluterSearch()">
+{% else %}
 <body>
+{% endif %}
 <div id="nav">
     Pollution Complaints:
     <a href="{{ url_for("site.site_home") }}">Site Home</a>
