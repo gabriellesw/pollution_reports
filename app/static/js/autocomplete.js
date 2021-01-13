@@ -7,6 +7,8 @@
     postal_code: "short_name",
   };
 
+  const geoComponents = ["lat", "lng"];
+
   function initPolluterSearch() {
     polluterSearch = new google.maps.places.Autocomplete(
       document.getElementById("polluter_search"),
@@ -20,10 +22,8 @@
   function autoFillAddress() {
     const place = polluterSearch.getPlace();
 
-    for (const component in addressComponents) {
-      document.getElementById(component).value = "";
-      document.getElementById(component).disabled = false;
-    }
+    document.getElementById("lat").value = place.geometry.location.lat()
+    document.getElementById("lng").value = place.geometry.location.lng()
 
     for (const component of place.address_components) {
       const addressType = component.types[0];

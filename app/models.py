@@ -7,6 +7,8 @@ CONFIG = Config()
 
 class Complaint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+    # User-submitted fields collected from forms.ComplaintForm
     anonymous = db.Column(db.Boolean, default=False)
     email = db.Column(db.String(CONFIG.varchar_max), nullable=False)
     confirm_email = db.Column(db.String(CONFIG.varchar_max), nullable=False)
@@ -18,10 +20,11 @@ class Complaint(db.Model):
     city = db.Column(db.String(CONFIG.varchar_max))
     state = db.Column(db.String(2))
     zip = db.Column(db.String(5))
-    type = db.Column(db.Enum(*CONFIG.pollution_types), nullable=False)
+    pollution_type = db.Column(db.Enum(*CONFIG.pollution_types), nullable=False)
     description = db.Column(db.Text(CONFIG.text_max), nullable=False)
-    polluter_name = db.Column(db.String(CONFIG.varchar_max))
-    polluter_address = db.Column(db.String(CONFIG.varchar_max), nullable=False)
+    polluter_search = db.Column(db.String(CONFIG.varchar_max))
+    polluter_street_number = db.Column(db.String(CONFIG.varchar_max), nullable=False)
+    polluter_street_name = db.Column(db.String(CONFIG.varchar_max), nullable=False)
     polluter_city = db.Column(db.String(CONFIG.varchar_max), nullable=False)
     polluter_state = db.Column(db.String(2), nullable=False)
     polluter_zip = db.Column(db.String(5), nullable=False)
@@ -29,6 +32,10 @@ class Complaint(db.Model):
     ongoing = db.Column(db.Boolean(), nullable=False)
     consent_to_followup = db.Column(db.Boolean(), nullable=False)
     consent_to_campaign = db.Column(db.Boolean(), nullable=False)
+    lat = db.Column(db.String(CONFIG.varchar_max))
+    lng = db.Column(db.String(CONFIG.varchar_max))
+
+    # Data updated by application
     submitted_date = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
     submitted_to_calepa = db.Column(db.Boolean(), default=False)
     submitted_to_calepa_date = db.Column(db.DateTime())

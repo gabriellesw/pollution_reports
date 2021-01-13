@@ -1,8 +1,8 @@
-"""complaints
+"""complaints table
 
-Revision ID: ae600bc4e543
+Revision ID: 680bfdb32640
 Revises: 
-Create Date: 2021-01-11 09:40:33.083945
+Create Date: 2021-01-12 21:30:53.326136
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ae600bc4e543'
+revision = '680bfdb32640'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,10 +31,11 @@ def upgrade():
     sa.Column('city', sa.String(length=100), nullable=True),
     sa.Column('state', sa.String(length=2), nullable=True),
     sa.Column('zip', sa.String(length=5), nullable=True),
-    sa.Column('type', sa.Enum('Odors/Fumes', 'Smoke', 'Dust', 'Asbestos'), nullable=False),
+    sa.Column('pollution_type', sa.Enum('Odors/Fumes', 'Smoke', 'Dust', 'Asbestos'), nullable=False),
     sa.Column('description', sa.Text(length=5000), nullable=False),
-    sa.Column('polluter_search_field', sa.String(length=100), nullable=True),
+    sa.Column('polluter_search', sa.String(length=100), nullable=True),
     sa.Column('polluter_street_number', sa.String(length=100), nullable=False),
+    sa.Column('polluter_street_name', sa.String(length=100), nullable=False),
     sa.Column('polluter_city', sa.String(length=100), nullable=False),
     sa.Column('polluter_state', sa.String(length=2), nullable=False),
     sa.Column('polluter_zip', sa.String(length=5), nullable=False),
@@ -42,6 +43,8 @@ def upgrade():
     sa.Column('ongoing', sa.Boolean(), nullable=False),
     sa.Column('consent_to_followup', sa.Boolean(), nullable=False),
     sa.Column('consent_to_campaign', sa.Boolean(), nullable=False),
+    sa.Column('lat', sa.String(length=100), nullable=True),
+    sa.Column('lng', sa.String(length=100), nullable=True),
     sa.Column('submitted_date', sa.DateTime(), nullable=True),
     sa.Column('submitted_to_calepa', sa.Boolean(), nullable=True),
     sa.Column('submitted_to_calepa_date', sa.DateTime(), nullable=True),
