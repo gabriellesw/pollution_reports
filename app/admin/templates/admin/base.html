@@ -12,8 +12,16 @@
 <div id="admin_nav">
     Admin:
     <a href="{{ url_for("admin.admin_home") }}">Admin Home</a>
+    {% if current_user.is_anonymous %}
+    <a href="{{ url_for("admin.login") }}">Login</a>
+    {% else %}
+    <a href="{{ url_for("admin.logout") }}">Logout</a>
+    {% endif %}
 
 </div>
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+{% endfor %}
 <hr>
 {% block content %}{% endblock %}
 </body>

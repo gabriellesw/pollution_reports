@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if user %}
-    <h1>Hello, {{ user.username }}!</h1>
+    <h1>Hello, {{ user.email }}!</h1>
     {% else %}
     <h1>Hello</h1>
     {% endif %}
@@ -11,17 +11,17 @@
         <h2>Recent Complaints</h2>
         <table>
         <tr>
-        {% for header in complaints[0].keys() %}
+        {% for header in headers %}
             <th>{{ header }}</th>
         {% endfor %}
         <td>Link</td>
         </tr>
             {% for complaint in complaints %}
                 <tr>
-                {% for value in complaint.values() %}
-                    <td>{{ value }}</td>
+                {% for header in headers %}
+                    <td>{{ complaint.__dict__[header] }}</td>
                 {% endfor %}
-                <td><a href="{{ url_for("admin.view_complaint", complaint_id=complaint["id"]) }}">View</a></td>
+                <td><a href="{{ url_for("admin.view_complaint", complaint_id=complaint.id) }}">View</a></td>
                 </tr>
             {% endfor %}
         </table>

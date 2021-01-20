@@ -47,6 +47,7 @@
     {% with field=form.polluter_search %}
     {% include "complaint_form/_varchar_field.html"%}
     {% endwith %}
+    <p><div id="map" style="width: 500px; height: 600px"></div></p>
 
     {% with field=form.description %}
     {% include "complaint_form/_textarea_field.html" %}
@@ -58,4 +59,5 @@
     <p>{{ form.send_complaint()}}</p>
 
     </form>
+
 {% endblock %}

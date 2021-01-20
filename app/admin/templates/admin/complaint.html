@@ -3,8 +3,8 @@
 {% block content %}
 {% if complaint %}
     <h1>View Complaint</h1>
-    {% for k, v in complaint.items() %}
-        <p><b>{{ k }}:</b> {{ v }}</p>
+    {% for k in complaint.__table__.columns %}
+        <p><b>{{ k.name }}:</b> {{ complaint.__dict__[k.name] }}</p>
     {% endfor %}
 {% endif %}
 <hr>

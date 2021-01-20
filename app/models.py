@@ -1,8 +1,27 @@
-from extensions import db
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_login import UserMixin
+from extensions import db, login
 from config import Config
 import datetime
 
 CONFIG = Config()
+
+
+@login.user_loader
+def get_user(id):
+    return User.query.get(int(id))
+
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(CONFIG.varchar_max), nullable=False, unique=True)
+    password = db.Column(db.String(CONFIG.varchar_max), nullable=False)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password_hash):
+        return check_password_hash(self.password, password_hash)
 
 
 class Complaint(db.Model):
@@ -42,13 +61,12 @@ class Complaint(db.Model):
     calepa_confirmation_number = db.Column(db.String(CONFIG.varchar_max))
 
     def __repr__(self):
-        polluter = self.polluter_name or "Polluter"
         sub = ""
         if self.submitted_to_calepa:
             sub = f"\nSubmitted to CalEPA on " \
                   f"{self.submitted_to_calepa_date:%b %d %Y, %I:%M %p} " \
                   f"\nCalEPA confirmation: {self.calepa_confirmation_number}"
         return f"""
-        Complaint from {self.email} about {polluter} at {self.polluter_address}\n 
-        {self.polluter_zip}, observed on {self.observed_date:%b %d %Y, %I:%M %p}{sub}
+        Complaint from {self.email} about {self.polluter_search}\n 
+        observed on {self.observed_date:%b %d %Y, %I:%M %p}{sub}
         """

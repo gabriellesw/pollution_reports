@@ -11,12 +11,14 @@ from .models import *
 
 from extensions import *
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
 
     db.init_app(app)
     migrate.init_app(app, db)
+    login.init_app(app)
 
     with app.app_context():
         app.register_blueprint(admin, url_prefix="/admin")

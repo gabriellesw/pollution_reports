@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField, BooleanField, SubmitField, TextAreaField, SelectField, DateTimeField,
-    HiddenField
+    HiddenField, PasswordField
 )
 from wtforms.validators import Email, InputRequired, Length, Optional
 from app.custom_validators import Zip, Phone, ConfirmEmail
@@ -9,6 +9,13 @@ from app.custom_validators import Zip, Phone, ConfirmEmail
 from config import Config
 
 CONFIG = Config()
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[InputRequired(), Email()])
+    password = PasswordField("Password", validators=[InputRequired()])
+    remember = BooleanField("Remember Me")
+    submit = SubmitField("Log In")
 
 
 class ComplaintForm(FlaskForm):
@@ -54,10 +61,10 @@ class ComplaintForm(FlaskForm):
     )
 
     polluter_search = StringField(
-        "Address, Intersection or Name of Corporation emitting the pollution",
+        "Start typing...",
         validators=[InputRequired(), Length(max=CONFIG.varchar_max)],
         id="polluter_search",
-        render_kw={"onFocus": "geolocate()"},
+        render_kw={"onFocus": "geolocate()", "autocomplete": "fdsifaoenjeiop"},
     )
 
     # Auto-filled by JS Autocomplete Widget
