@@ -1,0 +1,12 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+{% if complaint %}
+    <h1>View Complaint</h1>
+    {% for k in complaint.__table__.columns %}
+        <p><b>{{ k.name }}:</b> {{ complaint.__dict__[k.name] }}</p>
+    {% endfor %}
+{% endif %}
+<hr>
+    <a href="{{ url_for("dashboard.dashboard_home") }}">Back</a>
+{% endblock %}

@@ -4,18 +4,23 @@ from wtforms import (
     HiddenField, PasswordField
 )
 from wtforms.validators import Email, InputRequired, Length, Optional
-from app.custom_validators import Zip, Phone, ConfirmEmail
+from app.validators import Zip, Phone, ConfirmEmail
+from flask_security.forms import LoginForm
+
 
 from config import Config
 
 CONFIG = Config()
 
 
-class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired(), Email()])
-    password = PasswordField("Password", validators=[InputRequired()])
-    remember = BooleanField("Remember Me")
-    submit = SubmitField("Log In")
+class InviteOrganizerForm(FlaskForm):
+    """
+    Admins can invite a new Organizer to sign up
+    """
+    email = StringField(
+        "Email Address",
+        validators=[Email(), InputRequired(), Length(max=CONFIG.varchar_max)]
+    )
 
 
 class ComplaintForm(FlaskForm):

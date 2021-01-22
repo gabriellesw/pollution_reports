@@ -1,21 +1,47 @@
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import UserMixin
-from extensions import db, login
+from flask_security import UserMixin, RoleMixin
+from extensions import db, security
 from config import Config
 import datetime
 
 CONFIG = Config()
 
 
-@login.user_loader
-def get_user(id):
-    return User.query.get(int(id))
+#
+# @login.user_loader
+# def get_user(id):
+#     return User.query.get(int(id))
 
 
-class User(UserMixin, db.Model):
+class RolesUsers(db.Model):
+    __tablename__ = 'user_role'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Enum(CONFIG.admin_role, CONFIG.readonly_role), unique=True)
+
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(CONFIG.varchar_max), nullable=False, unique=True)
     password = db.Column(db.String(CONFIG.varchar_max), nullable=False)
+    active=db.Column(db.Boolean, nullable=False, default=False)
+    roles = db.relationship(
+        Role,
+        secondary="user_role",
+        backref=db.backref("users", lazy="dynamic")
+    )
+
+    @property
+    def is_admin(self):
+        """
+        For checking role inside templates
+        """
+        return self.has_role(CONFIG.admin_role)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

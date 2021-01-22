@@ -1,4 +1,4 @@
-{% extends "admin/base.html" %}
+{% extends "dashboard/base.html" %}
 
 {% block content %}
     {% if user %}
@@ -21,7 +21,7 @@
                 {% for header in headers %}
                     <td>{{ complaint.__dict__[header] }}</td>
                 {% endfor %}
-                <td><a href="{{ url_for("admin.view_complaint", complaint_id=complaint.id) }}">View</a></td>
+                <td><a href="{{ url_for("dashboard.view_complaint", complaint_id=complaint.id) }}">View</a></td>
                 </tr>
             {% endfor %}
         </table>

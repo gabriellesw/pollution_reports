@@ -9,13 +9,13 @@
     {% endif %}
 </head>
 <body>
-<div id="admin_nav">
-    Admin:
-    <a href="{{ url_for("admin.admin_home") }}">Admin Home</a>
-    {% if current_user.is_anonymous %}
-    <a href="{{ url_for("admin.login") }}">Login</a>
-    {% else %}
-    <a href="{{ url_for("admin.logout") }}">Logout</a>
+<div id="dashboard_nav">
+    Dashboard
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for("security.logout", next=url_for("dashboard.dashboard_home")) }}">Logout</a>
+    {% endif %}
+    {% if current_user.is_admin %}
+    <a href="{{ url_for("dashboard.control_panel") }}">Control Panel</a>
     {% endif %}
 
 </div>

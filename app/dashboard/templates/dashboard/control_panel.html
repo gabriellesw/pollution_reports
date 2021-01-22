@@ -1,0 +1,29 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+    <h1>Hello, {{ user.email }}!</h1>
+
+    <h2>User Control Panel - Add, remove, or edit users</h2>
+
+    <h3>Add a User</h3>
+    {% include "dashboard/_add_user.html" %}
+
+    <h3>Edit Users</h3>
+    <table>
+    <tr>
+    {% for header in headers %}
+        <th>{{ header }}</th>
+    {% endfor %}
+        <th>Link</th>
+    </tr>
+        {% for user in users %}
+            <tr>
+            {% for header in headers %}
+                <td>{{ user.__dict__[header] }}</td>
+            {% endfor %}
+            <td><a href="{{ url_for("dashboard.edit_user", user_id=user.id) }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

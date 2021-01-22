@@ -4,7 +4,12 @@ defaults: &defaults
     SQLALCHEMY_ENGINE_OPTIONS:
         pool_pre_ping: true
 #    DB_PORT: 5432
-    # Model/Form settings
+
+    # User Model settings
+    admin_role: "Admin"
+    readonly_role: "User"
+
+    # Complaint Form settings
     varchar_max: 100
     text_max: 5000
     date_format: "%b %d %Y, %I:%M %p"
@@ -14,15 +19,33 @@ defaults: &defaults
         - "Dust"
         - "Asbestos"
 
+    # Flask-Security overrides
+    SECURITY_LOGIN_USER_TEMPLATE: "dashboard/login.html"
+    SECURITY_UNAUTHORIZED_VIEW: "/dashboard/"
+
+    # Email Template Settings
+    COMPLAINT_SUBJECT: "Confirmation of Your Air Pollution Complaint"
+    INVITE_SUBJECT: "Create Your Pollution Reports Organizer Account"
+    RESET_PASSWORD_SUBJECT: "Reset Your Password on Pollution Reports"
+    WELCOME_SUBJECT: "You Are Now an Organizer on Pollution Reports"
+    RESET_SUCCESS_SUBJECT: "Your Password on Pollution Reports Was Changed"
+
+    # Tell app which environment variables you care about.
+    # This also serves as a reminder of what needs to go
+    # into your .env when deploying
     LOAD_FROM_ENV:
         - "SECRET_KEY"
+        - "SECURITY_PASSWORD_SALT"
         - "PLACES_API_KEY"
-#        - "AWS_SECRET_KEY"
-#        - "AWS_KEY_ID"
         - "DB_USERNAME"
         - "DB_PASSWORD"
         - "DB_SERVER"
         - "FLASK_ENV"
+        - "DEFAULT_USER_EMAIL"
+        - "DEFAULT_USER_PASSWORD"
+        - "SENDGRID_API_KEY"
+        - "SENDGRID_COMPLAINT_FROM"
+        - "SENDGRID_ORGANIZER_FROM"
 
 development:
     # General app settings
