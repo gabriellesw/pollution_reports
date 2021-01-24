@@ -6,6 +6,7 @@ from wtforms import (
 from wtforms.validators import Email, InputRequired, Length, Optional
 from app.validators import Zip, Phone, ConfirmEmail
 from flask_security.forms import LoginForm
+from flask_user.forms import InviteUserForm
 
 
 from config import Config

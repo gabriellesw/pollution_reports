@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask_user.forms import InviteUserForm
 from werkzeug.urls import url_parse
 from flask_security import current_user, hash_password, auth_required, roles_required
 from app.models import *
 # from app.forms import LoginForm, NewUserForm
 from config import Config
+from app.email_templates import *
 
 from extensions import *
 
@@ -58,7 +60,20 @@ def view_complaint(complaint_id):
 @dashboard.route("/control_panel")
 @roles_required(CONFIG.admin_role)
 def control_panel():
-    return "it worked"
+    form = InviteUserForm
+    #ToDo: add pagination
+    inactive_organizers = User.query.filter_by(active=False).limit(10).all()
+    active_organizers = User.query.filter_by(active=True).limit(10).all()
+    if form.validate_on_submit():
+        invite_organizer(form.email.data)
+        flash(f"And invite was sent to {form.email.data}")
+        return redirect(url_for("control_panel"))
+    return render_template(
+        "dashboard/control_panel.html",
+        form=form,
+        inactive_organizers=inactive_organizers,
+        active_organizers=active_organizers,
+    )
     # form = NewUserForm()
     # if form.validate_on_submit():
     #     user = User.query.filter_by(email=form.email.data).first()

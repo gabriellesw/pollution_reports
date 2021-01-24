@@ -1,7 +1,20 @@
 <h1>Your Complaint has been submitted</h1>
 
-{% if complaint %}
-    {% for k in complaint.__table__.columns %}
-        <p><b>{{ k.name }}:</b> {{ complaint.__dict__[k.name] }}</p>
-    {% endfor %}
+{% if complaint.first_name and complaint.last_name %}
+    {% set display_name = complaint.first_name + " " + complaint.last_name %}
+{% else %}
+    {% set display_name = complaint.email %}
 {% endif %}
+    <p>Dear {{ display_name }},</p>
+    <p>Thank you for your pollution or odor complaint. Your CalEPA
+    confirmation number is ABC123{# dummy value #}. The details of
+    your complaint are below.
+    </p>
+<hr>
+
+<h3>Complaint Details</h3>
+<hr>
+
+{% for k in complaint.__table__.columns %}
+    <p><b>{{ k.name }}:</b> {{ complaint.__dict__[k.name] }}</p>
+{% endfor %}
