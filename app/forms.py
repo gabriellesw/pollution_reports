@@ -11,13 +11,6 @@ from config import Config
 CONFIG = Config()
 
 
-class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired(), Email()])
-    password = PasswordField("Password", validators=[InputRequired()])
-    remember = BooleanField("Remember Me")
-    submit = SubmitField("Log In")
-
-
 class ComplaintForm(FlaskForm):
 
     email = StringField(

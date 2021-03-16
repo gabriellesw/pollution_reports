@@ -21,9 +21,6 @@ defaults: &defaults
     LOAD_FROM_ENV:
         - "SECRET_KEY"
         - "PLACES_API_KEY"
-        - "DB_USERNAME"
-        - "DB_PASSWORD"
-        - "DB_SERVER"
         - "FLASK_ENV"
 
 development:
