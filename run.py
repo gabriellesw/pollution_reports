@@ -8,7 +8,6 @@ app = create_app()
 def shell_context():
     return {
         "db": db,
-        "User": User,
         "Complaint": Complaint,
     }
 
