@@ -1,0 +1,14 @@
+{
+  "name": "pollution_reports",
+  "version": "1.0.0",
+  "description": "Pollution reporting tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gabrielle Sloane Law",
+  "license": "ISC",
+  "dependencies": {
+    "rellax": "^1.12.1"
+  }
+}

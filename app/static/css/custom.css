@@ -1,0 +1,100 @@
+:root {
+    /* Colors */
+    --custom-white: #f2eaee;
+    --custom-white-transparent: rgba(242, 234, 238, .75);
+    --custom-red: #DF2935;
+    --custom-black: #0A090C;
+    --custom-accent-light: #BACBA9;
+    --custom-accent-dark: #476A6F;
+    /* Fonts */
+    --header-font: 'Oswald', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+}
+
+/*Site fonts*/
+.header-font {
+    font-family: var(--header-font)
+}
+
+.body-font {
+    font-family: var(--body-font)
+}
+
+
+html {
+    font-size: calc(1rem + 1vw);
+    font-style: normal;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.bg-color-white {
+    background-color: var(--custom-white);
+}
+
+.bg-color-white-transparent {
+    background-color: var(--custom-white-transparent);
+}
+
+.bg-color-black {
+    background-color: var(--custom-black);
+}
+
+.bg-color-accent {
+    background-color: var(--custom-accent-light);
+}
+
+.bg-color-accent-dark {
+    background-color: var(--custom-accent-dark);
+}
+
+.font-black {
+    color: var(--custom-black);
+}
+
+.font-accent {
+    color: var(--custom-accent-dark);
+}
+
+.font-white {
+    color: var(--custom-white)
+}
+
+.font-size-xx-small {
+    font-size: .5rem;
+}
+
+.font-size-x-small {
+    font-size: .65rem;
+}
+
+.font-size-small {
+    font-size: .75rem;
+}
+
+.font-size-medium {
+    font-size: 1rem;
+}
+
+.font-size-large {
+    font-size: 1.25rem;
+}
+
+.font-size-x-large {
+    font-size: 1.5rem;
+}
+
+.font-size-xx-large {
+    font-size: 2rem;
+}
+
+.background-image {
+    background-image: url("../images/smokestacks.jpeg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

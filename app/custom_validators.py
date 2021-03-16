@@ -43,8 +43,8 @@ class Zip(CustomValidator):
     def default_message(self):
         return "Invalid ZIP Code"
 
-    def is_validated(self, form, zip):
-        return zipcodes.is_real(zip.data)
+    def is_validated(self, form, zipcode):
+        return zipcodes.is_real(zipcode.data)
 
 
 class Phone(CustomValidator):

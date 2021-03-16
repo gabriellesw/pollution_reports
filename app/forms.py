@@ -32,6 +32,13 @@ class ComplaintForm(FlaskForm):
         validators=[Optional(), Length(max=CONFIG.varchar_max)]
     )
 
+    reporter_search = StringField(
+        "Start Typing Your Address",
+        validators=[InputRequired(), Length(max=CONFIG.varchar_max)],
+        id="polluter_search",
+        render_kw={"onFocus": "geolocate()", "autocomplete": "gnbbxegfdanjeijk"},
+    )
+
     street = StringField(
         "Street Address",
         validators=[Optional(), Length(max=CONFIG.varchar_max)]
@@ -87,5 +94,3 @@ class ComplaintForm(FlaskForm):
     anonymous = BooleanField("I wish to submit my complaint anonymously")
 
     send_complaint = SubmitField("Send my complaint now!")
-
-
