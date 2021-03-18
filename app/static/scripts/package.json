@@ -9,6 +9,7 @@
   "author": "Gabrielle Sloane Law",
   "license": "ISC",
   "dependencies": {
+    "ab-datepicker": "^2.1.19",
     "rellax": "^1.12.1"
   }
 }

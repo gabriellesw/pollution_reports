@@ -6,6 +6,7 @@
     --custom-black: #0A090C;
     --custom-accent-light: #BACBA9;
     --custom-accent-dark: #476A6F;
+    --custom-accent-dark-transparent: rgba(71, 106, 111, .5);
     /* Fonts */
     --header-font: 'Oswald', sans-serif;
     --body-font: 'Roboto', sans-serif;
@@ -94,7 +95,34 @@ body {
 .background-image {
     background-image: url("../images/smokestacks.jpeg");
     height: 100%;
-    background-position: center;
+    background-position-y: top;
+    background-position-x: center;
     background-repeat: no-repeat;
     background-size: cover;
+    min-height: 800px;
+}
+
+#map {
+    height: 400px;
+}
+
+#anonymous-button-label {
+    background-color: var(--custom-accent-dark-transparent);
+}
+
+#anonymous-button-label:not(:disabled):not(.disabled).active {
+    background-color: var(--custom-accent-dark);
+}
+
+#datepicker-calendar-date1 {
+    /*ToDo: turn font sizes into variables*/
+    font-size: .55rem;
+    font-family: var(--body-font);
+    color: var(--custom-black);
+    background-color: var(--custom-white-transparent);
+    width: 93%;
+}
+
+.datepicker-button.datepicker-month {
+    font-size: .55rem;
 }

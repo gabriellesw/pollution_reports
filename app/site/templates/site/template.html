@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-{#    <script src="https://kit.fontawesome.com/7d878f059c.js" crossorigin="anonymous"></script>#}
+    <script src="https://kit.fontawesome.com/7d878f059c.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -14,9 +14,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pollution Reports</title>
     <script src="{{ url_for('static', filename='scripts/node_modules/rellax/rellax.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/js/datepicker.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/css/datepicker.css') }}" type="text/css">
+
+    {% if places_api_key %}
+        <script
+            async="false"
+            src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initPolluterSearch&libraries=places&v=weekly"
+            defer>
+        </script>
+        <script defer src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
+    {% endif %}
+
 </head>
-<body class="bg-color-main">
-    <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
+{% if places_api_key %}
+<body onload="initPolluterSearch(); initMap();" class="bg-color-black">
+{% else %}
+<body class="bg-color-black">
+{% endif %}
+<header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
             <div class="row p-0">
                 <div class="col-md px-5 text-center text-md-left text-uppercase text-white font-size-large">Pollution Reports</div>
                 <div class="col-md px-5">
@@ -30,19 +46,107 @@
                 </div>
             </div>
         </header>
-    <div class="container-fluid m-0 px-3 background-image d-flex align-items-end">
+    <div class="container-fluid m-0 px-3 background-image">
 
 
-        <div class="container-fluid bg-color-white-transparent parallax" data-rellax-speed="10">
-            <h1>TEST</h1>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
+        <div class="complaint-form-container container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="2">
+            <div class="row py-0 px-5">
+                <div class="col">
+                    <h1 class="header-font text-uppercase font-size-large text-center">Make a Report</h1>
+                </div>
+            </div>
+            <form role="form" aria-label="Form for reporting pollution">
+
+
+
+                <div class="row py-4">
+                    <div class="col-md-6">
+                        <h3 class="header-font font-size-medium text-dark">Where was it?</h3>
+                        <div class="form-group">
+
+                            <input id="polluter_search" type="search" onFocus="geolocate()" autocomplete="fdsifaoenjeiop" placeholder="Search for polluter..." class="form-control body-font font-size-x-small">
+                            <label for="polluter_search" class="sr-only">Search for polluter...</label>
+                            <input type="hidden" id="lat" class="form-control ">
+                            <input type="hidden" id="lng" class="form-control ">
+                            <input type="hidden" id="street_number" class="form-control ">
+                            <input type="hidden" id="locality" class="form-control ">
+                            <input type="hidden" id="route" class="form-control ">
+                            <input type="hidden" id="administrative_area_level_1" class="form-control ">
+                            <input type="hidden" id="postal_code" class="form-control ">
+
+                            <figure role="figure">
+                                <div id="map" class="img-fluid rounded-sm mt-2"></div>
+                                <figcaption class="sr-only">If the polluter is found, it is displayed on the above map</figcaption>
+                            </figure>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="header-font font-size-medium text-dark">When did it happen?</h3>
+                        <div class="form-group">
+                            <input class="date form-control body-font font-size-x-small" id="date1" type="text" placeholder="Date observed" title="format: dd/MM/y"/>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $('.date').datepicker({
+                                        weekDayFormat: 'narrow',
+                                        markup: 'bootstrap4',
+                                        inputFormat: 'M/d/y',
+                                        max: moment().format('M/D/Y').toString(),
+                                        {#theme: 'dark',#}
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div id="anonymous-button-row" class="row py-3 px-5">
+                    <div class="col-md"></div>
+                    <div class="col-md-8 text-center">
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                          <label id="anonymous-button-label" class="btn btn-dark btn-sm font-size-x-small font-white" for="anonymous-complaint">
+                            <input id="anonymous-complaint" type="checkbox" autocomplete="off"> Submit Anonymously
+                          </label>
+                        </div>
+                    </div>
+                    <div class="col-md"></div>
+                </div>
+                <div id="contact-info-row" class="form-row">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col">
+                                <input id="email" type="email" class="form-control" placeholder="Email">
+                                <label for="email" class="sr-only">Email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input id="confirm-email" type="email" class="form-control" placeholder="Confirm Email">
+                                <label for="confirm-email" class="sr-only">Confirm Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-row">
+                            <div class="col">
+                                phone
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                landline checkbox
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
 
     </div>

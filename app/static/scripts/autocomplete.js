@@ -43,7 +43,7 @@
       title: place.name,
     });
     const infowindow = new google.maps.InfoWindow(
-        {content: "<b>Polluter: </b>" + place.name + "<br><b>Address: </b>" + place.formatted_address}
+        {content: "<b>Location: </b>" + place.name + "<br><b>Address: </b>" + place.formatted_address}
     );
     infowindow.open(map, marker);
   }
