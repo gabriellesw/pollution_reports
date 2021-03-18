@@ -119,10 +119,36 @@ body {
     font-size: .55rem;
     font-family: var(--body-font);
     color: var(--custom-black);
-    background-color: var(--custom-white-transparent);
+    background-color: var(--custom-white);
     width: 93%;
 }
 
-.datepicker-button.datepicker-month {
-    font-size: .55rem;
+#datepicker-month-date1 {
+    font-size: .65rem;
+    font-weight: normal;
+    font-family: var(--header-font);
+    text-transform: uppercase;
+    background-color: var(--custom-white);
+}
+
+.datepicker-calendar.default table.datepicker-grid thead tr {
+    font-size: .65rem;
+    font-family: var(--body-font);
+    text-transform: uppercase;
+}
+
+.datepicker-calendar.default table.datepicker-grid th {
+    background-color: var(--custom-accent-light) !important;
+}
+
+abbr[data-original-title], abbr[title] {
+    text-decoration: none;
+}
+
+a.datepicker-button.default:hover, a.datepicker-button.default:focus {
+    background-color: transparent !important;
+}
+
+i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
+    color: var(--custom-accent-dark);
 }
