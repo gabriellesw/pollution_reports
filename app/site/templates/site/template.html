@@ -32,6 +32,7 @@
 {% else %}
 <body class="bg-color-black">
 {% endif %}
+
 <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
             <div class="row p-0">
                 <div class="col-md px-5 text-center text-md-left text-uppercase text-white font-size-large">Pollution Reports</div>
@@ -84,19 +85,63 @@
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">When did it happen?</h3>
                         <div class="form-group">
-                            <input class="date form-control body-font font-size-x-small" id="date1" type="text" placeholder="Date observed" title="format: dd/MM/y"/>
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $('.date').datepicker({
-                                        weekDayFormat: 'narrow',
-                                        markup: 'bootstrap4',
-                                        inputFormat: 'M/d/y',
-                                        max: moment().format('M/D/Y').toString(),
-                                        {#theme: 'dark',#}
-                                    });
-                                });
-                            </script>
+                            <input class="date form-control body-font font-size-x-small" id="date1" type="text" placeholder="m/d/yy" title="click the button to choose a different date"/>
+
+                            <div class="container-fluid mt-2 p-0">
+                                <div class="input-group">
+
+                                <select class="form-control body-font font-size-x-small text-dark" id="hours">
+                                    {% for i in range(1, 13) %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="hours" class="sr-only">Hour</label>
+
+                                <select class="form-control body-font font-size-x-small text-dark" id="minutes">
+                                    {% for i in range(59) %}
+                                          <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="minutes" class="sr-only">Minute</label>
+
+                                <label for="ampm" class="sr-only">AM/PM</label>
+                                <select class="form-control body-font font-size-x-small text-dark" id="ampm">
+                                    <option value="am">AM</option>
+                                    <option value="pm">PM</option>
+                                </select>
+
+                            </div>
+                            </div>
                         </div>
+
+                        {# Initialize ab-datepicker & prefill w/current date/time#}
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                var currentDate = moment().format('M/D/Y').toString();
+                                $("#date1").val(currentDate);
+                            });
+
+                            $(document).ready(function() {
+                                $('.date').datepicker({
+                                    weekDayFormat: 'narrow',
+                                    markup: 'bootstrap4',
+                                    inputFormat: 'M/d/y',
+                                    max: moment().format('M/D/Y').toString(),
+                                });
+                            });
+
+                            $(document).ready(function () {
+                                var mo = moment();
+                                var hour = mo.format("h");
+                                var minute = mo.format("m");
+                                var ampm = mo.format("a");
+                                $("#hours").val(hour);
+                                $("#minutes").val(minute);
+                                $("#ampm").val(ampm);
+                            });
+
+                        </script>
+
                     </div>
                 </div>
 
@@ -154,5 +199,7 @@
     <script type="text/javascript">
         var rellax = new Rellax('.parallax');
     </script>
+
+
 </body>
 </html>
