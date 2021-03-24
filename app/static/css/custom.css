@@ -114,6 +114,14 @@ body {
     background-color: var(--custom-accent-dark);
 }
 
+#anonymous-button-label {
+    background-color: var(--custom-accent-dark-transparent);
+}
+
+#anonymous-button-label:not(:disabled):not(.disabled).active {
+    background-color: var(--custom-accent-dark);
+}
+
 #datepicker-calendar-date1 {
     /*ToDo: turn font sizes into variables*/
     font-size: .55rem;

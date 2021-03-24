@@ -148,7 +148,7 @@
                             </script>
 
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
-                                <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font" for="ongoing-complaint">
+                                <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="ongoing-complaint">
                                     <input id="ongoing-complaint" type="checkbox" autocomplete="off">
                                     <span id="is-it-ongoing">Still Ongoing</span>
                                 </label>
@@ -180,7 +180,7 @@
                             </div>
                             <div class="container-fluid mt-2 p-0">
                                 <label for="pollution-description" class="sr-only">Describe the Pollution, in your own words</label>
-                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="11" placeholder="Describe the pollution, in your own words"></textarea>
+                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="12" placeholder="Describe the pollution, in your own words"></textarea>
                             </div>
                         </div>
 
@@ -192,7 +192,26 @@
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">Your Contact Info</h3>
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="form-group m-0 p-0">
+                            <div class="btn-group-toggle mt-2" data-toggle="buttons">
+                                <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="anonymous-complaint">
+                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off">
+                                    <span id="make-anonymous">No, Please Submit Anonymously</span>
+                                </label>
+                            </div>
+
+                            {# Allow box to be checked with spacebar #}
+                            <script type="text/javascript">
+                                var checkbox = $("#anonymous-complaint");
+                                checkbox.keypress(function(key) {
+                                    if(key.which === 32) {
+                                        $(this).trigger("click");
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
                 </div>
 
             </form>
