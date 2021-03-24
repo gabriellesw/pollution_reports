@@ -156,7 +156,3 @@ i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
 span#is-it-ongoing {
     pointer-events: none;
 }
-
-#pollution-description {
-    height: 333px;
-}
