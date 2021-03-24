@@ -1,5 +1,7 @@
   let polluterSearch;
+  let reporterSearch;
   let map;
+
   const addressComponents = {
     street_number: "short_name",
     route: "short_name",
@@ -7,6 +9,11 @@
     administrative_area_level_1: "short_name",
     postal_code: "short_name",
   };
+
+  function initAutocomplete() {
+    initPolluterSearch();
+    initReporterSearch();
+  }
 
   function initPolluterSearch() {
     polluterSearch = new google.maps.places.Autocomplete(
@@ -16,36 +23,60 @@
     polluterSearch.setFields([
         "address_component", "place_id", "formatted_address", "name", "geometry.location"
     ]);
-    polluterSearch.setComponentRestrictions({"country": ["us"]})
-    polluterSearch.addListener("place_changed", autoFillAddress);
+    polluterSearch.setComponentRestrictions({"country": ["us"]});
+    polluterSearch.addListener("place_changed", function () {autoFillAddress(true)});
   }
 
-  function autoFillAddress() {
-    const place = polluterSearch.getPlace();
+  function initReporterSearch() {
+    reporterSearch = new google.maps.places.Autocomplete(
+        document.getElementById("reporter_search"),
+        {types: ["geocode"]}
+    );
+    reporterSearch.setFields([
+        "address_component", "formatted_address", "geometry.location"
+    ])
+    reporterSearch.setComponentRestrictions({"country": ["us"]});
+    reporterSearch.addListener("place_changed", function () {autoFillAddress(false)});
+  }
 
-    document.getElementById("lat").value = place.geometry.location.lat();
-    document.getElementById("lng").value = place.geometry.location.lng();
+  function autoFillAddress(polluter=false) {
+    var place;
+    var prefix;
+    if(polluter === true) {
+      place = polluterSearch.getPlace();
+      prefix = "polluter_";
+    }
+    else {
+      place = reporterSearch.getPlace();
+      prefix = "";
+    }
+
+    document.getElementById(prefix + "lat").value = place.geometry.location.lat();
+    document.getElementById(prefix + "lng").value = place.geometry.location.lng();
 
     for (const component of place.address_components) {
       const addressType = component.types[0];
 
       if (addressComponents[addressType]) {
         const val = component[addressComponents[addressType]];
-        document.getElementById(addressType).value = val;
+        document.getElementById(prefix + addressType).value = val;
       }
     }
-    map.setCenter(place.geometry.location);
-    map.setZoom(15);
 
-    const marker = new google.maps.Marker({
-      map,
-      position: place.geometry.location,
-      title: place.name,
-    });
-    const infowindow = new google.maps.InfoWindow(
-        {content: "<b>Location: </b>" + place.name + "<br><b>Address: </b>" + place.formatted_address}
-    );
-    infowindow.open(map, marker);
+    if(polluter === true) {
+      map.setCenter(place.geometry.location);
+      map.setZoom(15);
+
+      const marker = new google.maps.Marker({
+        map,
+        position: place.geometry.location,
+        title: place.name,
+      });
+      const infowindow = new google.maps.InfoWindow(
+          {content: "<b>Location: </b>" + place.name + "<br><b>Address: </b>" + place.formatted_address}
+      );
+      infowindow.open(map, marker);
+    }
   }
 
   function initMap() {
@@ -56,7 +87,7 @@
     });
   }
 
-  function geolocate() {
+  function geolocate(polluter=false) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const geolocation = {
@@ -67,10 +98,15 @@
           center: geolocation,
           radius: position.coords.accuracy,
         });
-        polluterSearch.setBounds(circle.getBounds());
-        if (document.getElementById("lat").value === "") {
-          map.setCenter(geolocation);
-          map.setZoom(10);
+        if(polluter === true) {
+          polluterSearch.setBounds(circle.getBounds());
+          if (document.getElementById("polluter_lat").value === "") {
+            map.setCenter(geolocation);
+            map.setZoom(10);
+          }
+        }
+        else {
+          reporterSearch.setBounds(circle.getBounds());
         }
       });
     }

@@ -161,6 +161,6 @@ i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
     color: var(--custom-accent-dark);
 }
 
-span#is-it-ongoing {
+span#is-it-ongoing, span#make-anonymous {
     pointer-events: none;
 }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <script src="https://kit.fontawesome.com/7d878f059c.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     {{ moment.include_moment() }}
@@ -15,12 +15,17 @@
     <title>Pollution Reports</title>
     <script src="{{ url_for('static', filename='scripts/node_modules/rellax/rellax.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/js/datepicker.min.js') }}"></script>
+
+    {# ToDo: minify all local static js & css #}
     <link rel="stylesheet" href="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/css/datepicker.css') }}" type="text/css">
 
+
+    {# ToDo: move all scripts that aren't used everywhere into a block instead of checking for arguments#}
+    <script src="{{ url_for('static', filename='scripts/complaint-form.js') }}"></script>
     {% if places_api_key %}
         <script
             async="false"
-            src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initPolluterSearch&libraries=places&v=weekly"
+            src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initAutocomplete&libraries=places&v=weekly"
             >
         </script>
         <script async="false" src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
@@ -28,7 +33,7 @@
 
 </head>
 {% if places_api_key %}
-<body onload="initPolluterSearch(); initMap();" class="bg-color-black">
+<body onload="initAutocomplete(); initMap();" class="bg-color-black">
 {% else %}
 <body class="bg-color-black">
 {% endif %}
@@ -58,22 +63,20 @@
             </div>
             <form role="form" aria-label="Form for reporting pollution">
 
-
-
                 <div class="row py-4">
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">Where was it?</h3>
                         <div class="form-group">
 
-                            <input id="polluter_search" type="search" onFocus="geolocate()" autocomplete="fdsifaoenjeiop" placeholder="Search for polluter..." class="form-control body-font font-size-x-small">
+                            <input id="polluter_search" type="search" onFocus="geolocate(true)" autocomplete="fdsifaoenjeiop" placeholder="Search for polluter..." class="form-control body-font font-size-x-small">
                             <label for="polluter_search" class="sr-only">Search for polluter...</label>
-                            <input type="hidden" id="lat" class="form-control ">
-                            <input type="hidden" id="lng" class="form-control ">
-                            <input type="hidden" id="street_number" class="form-control ">
-                            <input type="hidden" id="locality" class="form-control ">
-                            <input type="hidden" id="route" class="form-control ">
-                            <input type="hidden" id="administrative_area_level_1" class="form-control ">
-                            <input type="hidden" id="postal_code" class="form-control ">
+                            <input type="hidden" id="polluter_lat" class="form-control ">
+                            <input type="hidden" id="polluter_lng" class="form-control ">
+                            <input type="hidden" id="polluter_street_number" class="form-control ">
+                            <input type="hidden" id="polluter_locality" class="form-control ">
+                            <input type="hidden" id="polluter_route" class="form-control ">
+                            <input type="hidden" id="polluter_administrative_area_level_1" class="form-control ">
+                            <input type="hidden" id="polluter_postal_code" class="form-control ">
 
                             <figure role="figure">
                                 <div id="map" class="img-fluid rounded-sm mt-2"></div>
@@ -119,34 +122,6 @@
                             </div>
                             </div>
 
-                            {# Initialize ab-datepicker & prefill w/current date/time#}
-                            <script type="text/javascript">
-                                $(document).ready(function () {
-                                    var currentDate = moment().format('M/D/Y').toString();
-                                    $("#date1").val(currentDate);
-                                });
-
-                                $(document).ready(function() {
-                                    $('.date').datepicker({
-                                        weekDayFormat: 'narrow',
-                                        markup: 'bootstrap4',
-                                        inputFormat: 'M/d/y',
-                                        max: moment().format('M/D/Y').toString(),
-                                    });
-                                });
-
-                                $(document).ready(function () {
-                                    var mo = moment();
-                                    var hour = mo.format("h");
-                                    var minute = mo.format("m");
-                                    var ampm = mo.format("a");
-                                    $("#hours").val(hour);
-                                    $("#minutes").val(minute);
-                                    $("#ampm").val(ampm);
-                                });
-
-                            </script>
-
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
                                 <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="ongoing-complaint">
                                     <input id="ongoing-complaint" type="checkbox" autocomplete="off">
@@ -154,15 +129,6 @@
                                 </label>
                             </div>
 
-                            {# Allow box to be checked with spacebar #}
-                            <script type="text/javascript">
-                                var checkbox = $("#ongoing-complaint");
-                                checkbox.keypress(function(key) {
-                                    if(key.which === 32) {
-                                        $(this).trigger("click");
-                                    }
-                                });
-                            </script>
                         </div>
                         <div class="form-group mb-0">
                         <h3 class="header-font font-size-medium text-dark">Describe the pollution</h3>
@@ -179,8 +145,8 @@
                                 </div>
                             </div>
                             <div class="container-fluid mt-2 p-0">
-                                <label for="pollution-description" class="sr-only">Describe the Pollution, in your own words</label>
-                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="12" placeholder="Describe the pollution, in your own words"></textarea>
+                                <label for="pollution-description" class="sr-only">Describe the pollution you've witnessed in your own words. Odors, observed smoke or dust, sounds, and any other activity that you think will help investigators research and act upon your complaint.</label>
+                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="12" placeholder="Describe the pollution you've witnessed in your own words. Odors, observed smoke or dust, sounds, and any other activity that you think will help investigators research and act upon your complaint."></textarea>
                             </div>
                         </div>
 
@@ -196,22 +162,17 @@
                         <div class="form-group m-0 p-0">
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
                                 <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="anonymous-complaint">
-                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off">
+                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off" aria-controls="contact-info-collapsible">
                                     <span id="make-anonymous">No, Please Submit Anonymously</span>
                                 </label>
                             </div>
 
-                            {# Allow box to be checked with spacebar #}
-                            <script type="text/javascript">
-                                var checkbox = $("#anonymous-complaint");
-                                checkbox.keypress(function(key) {
-                                    if(key.which === 32) {
-                                        $(this).trigger("click");
-                                    }
-                                });
-                            </script>
                         </div>
                     </div>
+                </div>
+
+                <div id="contact-info-collapsible" class="form-group container-fluid m-0 p-0" aria-expanded="true">
+                    test
                 </div>
 
             </form>
