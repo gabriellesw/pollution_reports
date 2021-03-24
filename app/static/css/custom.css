@@ -103,14 +103,14 @@ body {
 }
 
 #map {
-    height: 400px;
+    height: 600px;
 }
 
-#anonymous-button-label {
+#ongoing-button-label {
     background-color: var(--custom-accent-dark-transparent);
 }
 
-#anonymous-button-label:not(:disabled):not(.disabled).active {
+#ongoing-button-label:not(:disabled):not(.disabled).active {
     background-color: var(--custom-accent-dark);
 }
 
@@ -151,4 +151,12 @@ a.datepicker-button.default:hover, a.datepicker-button.default:focus {
 
 i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
     color: var(--custom-accent-dark);
+}
+
+span#is-it-ongoing {
+    pointer-events: none;
+}
+
+#pollution-description {
+    height: 333px;
 }

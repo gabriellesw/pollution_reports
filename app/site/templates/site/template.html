@@ -50,7 +50,7 @@
     <div class="container-fluid m-0 px-3 background-image">
 
 
-        <div class="complaint-form-container container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="2">
+        <div class="complaint-form-container container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="15">
             <div class="row py-0 px-5">
                 <div class="col">
                     <h1 class="header-font text-uppercase font-size-large text-center">Make a Report</h1>
@@ -77,14 +77,14 @@
 
                             <figure role="figure">
                                 <div id="map" class="img-fluid rounded-sm mt-2"></div>
-                                <figcaption class="sr-only">If the polluter is found, it is displayed on the above map</figcaption>
+                                <figcaption class="sr-only">Searchable map showing location of polluter</figcaption>
                             </figure>
 
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">When did it happen?</h3>
-                        <div class="form-group">
+                        <div class="form-group pb-2">
                             <input class="date form-control body-font font-size-x-small" id="date1" type="text" placeholder="m/d/yy" title="click the button to choose a different date"/>
 
                             <div class="container-fluid mt-2 p-0">
@@ -98,8 +98,14 @@
                                 <label for="hours" class="sr-only">Hour</label>
 
                                 <select class="form-control body-font font-size-x-small text-dark" id="minutes">
-                                    {% for i in range(59) %}
-                                          <option value="{{ i }}">{{ i }}</option>
+                                    {% for i in range(60) %}
+                                        {% if i < 10 %}
+                                            {% set val = "0%.0f"|format(i) %}
+                                        {% else %}
+                                            {% set val = i|string %}
+                                        {% endif %}
+
+                                        <option value={{ i }}>{{ val }}</option>
                                     {% endfor %}
                                 </select>
                                 <label for="minutes" class="sr-only">Minute</label>
@@ -112,84 +118,83 @@
 
                             </div>
                             </div>
-                        </div>
 
-                        {# Initialize ab-datepicker & prefill w/current date/time#}
-                        <script type="text/javascript">
-                            $(document).ready(function () {
-                                var currentDate = moment().format('M/D/Y').toString();
-                                $("#date1").val(currentDate);
-                            });
-
-                            $(document).ready(function() {
-                                $('.date').datepicker({
-                                    weekDayFormat: 'narrow',
-                                    markup: 'bootstrap4',
-                                    inputFormat: 'M/d/y',
-                                    max: moment().format('M/D/Y').toString(),
+                            {# Initialize ab-datepicker & prefill w/current date/time#}
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    var currentDate = moment().format('M/D/Y').toString();
+                                    $("#date1").val(currentDate);
                                 });
-                            });
 
-                            $(document).ready(function () {
-                                var mo = moment();
-                                var hour = mo.format("h");
-                                var minute = mo.format("m");
-                                var ampm = mo.format("a");
-                                $("#hours").val(hour);
-                                $("#minutes").val(minute);
-                                $("#ampm").val(ampm);
-                            });
+                                $(document).ready(function() {
+                                    $('.date').datepicker({
+                                        weekDayFormat: 'narrow',
+                                        markup: 'bootstrap4',
+                                        inputFormat: 'M/d/y',
+                                        max: moment().format('M/D/Y').toString(),
+                                    });
+                                });
 
-                        </script>
+                                $(document).ready(function () {
+                                    var mo = moment();
+                                    var hour = mo.format("h");
+                                    var minute = mo.format("m");
+                                    var ampm = mo.format("a");
+                                    $("#hours").val(hour);
+                                    $("#minutes").val(minute);
+                                    $("#ampm").val(ampm);
+                                });
+
+                            </script>
+
+                            <div class="btn-group-toggle mt-2" data-toggle="buttons">
+                                <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font" for="ongoing-complaint">
+                                    <input id="ongoing-complaint" type="checkbox" autocomplete="off">
+                                    <span id="is-it-ongoing">Still Ongoing</span>
+                                </label>
+                            </div>
+
+                            {# Allow box to be checked with spacebar #}
+                            <script type="text/javascript">
+                                var checkbox = $("#ongoing-complaint");
+                                checkbox.keypress(function(key) {
+                                    if(key.which === 32) {
+                                        $(this).trigger("click");
+                                    }
+                                });
+                            </script>
+                        </div>
+                        <div class="form-group">
+                        <h3 class="header-font font-size-medium text-dark">Describe the pollution</h3>
+                            <div class="container-fluid mt-2 p-0">
+                                <div class="input-group">
+                                    <select class="form-control body-font font-size-x-small text-dark" id="pollution-types">
+                                        {% for t in ["Odors/Fumes", "Smoke", "Dust", "Asbestos"] %}
+                                            <option value="{{ t }}">{{ t }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="input-group-append">
+                                        <label for="pollution-types" class="input-group-text body-font font-size-x-small text-dark">Type</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mt-2 p-0">
+                                <label for="pollution-description" class="sr-only">Describe the Pollution, in your own words</label>
+                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="11" placeholder="Describe the pollution, in your own words"></textarea>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
 
-
-
-
-
-
-
-                <div id="anonymous-button-row" class="row py-3 px-5">
-                    <div class="col-md"></div>
-                    <div class="col-md-8 text-center">
-                        <div class="btn-group-toggle" data-toggle="buttons">
-                          <label id="anonymous-button-label" class="btn btn-dark btn-sm font-size-x-small font-white" for="anonymous-complaint">
-                            <input id="anonymous-complaint" type="checkbox" autocomplete="off"> Submit Anonymously
-                          </label>
-                        </div>
+                <div class="row py-4">
+                    <div class="col-md-6">
+                        <h3 class="header-font font-size-medium text-dark">Your Contact Info</h3>
                     </div>
-                    <div class="col-md"></div>
+                    <div class="col-md-6"></div>
                 </div>
-                <div id="contact-info-row" class="form-row">
-                    <div class="col-md">
-                        <div class="row">
-                            <div class="col">
-                                <input id="email" type="email" class="form-control" placeholder="Email">
-                                <label for="email" class="sr-only">Email</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <input id="confirm-email" type="email" class="form-control" placeholder="Confirm Email">
-                                <label for="confirm-email" class="sr-only">Confirm Email</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-row">
-                            <div class="col">
-                                phone
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col">
-                                landline checkbox
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </form>
 
         </div>
