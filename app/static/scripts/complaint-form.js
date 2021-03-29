@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var currentDate = moment();
-    var dateString = currentDate.format("M/D/Y").toString();
-    var dateField = $("#date1");
+    let currentDate = moment();
+    let dateString = currentDate.format("M/D/Y").toString();
+    let dateField = $("#date1");
 
     // Set date field to today's date
     dateField.val(dateString);
@@ -20,28 +20,50 @@ $(document).ready(function () {
     $("#ampm").val(currentDate.format("a"));
 
     // Make checkbox buttons toggle-able with spacebar
-    var complaintCheckbox = $("#ongoing-complaint");
+    let complaintCheckbox = $("#ongoing-complaint");
     complaintCheckbox.keypress(function(key) {
         if(key.which === 32) {
             $(this).trigger("click");
         }
     });
 
-    // ToDo: Checking this also collapses the contact info section
-    var anonCheckbox = $("#anonymous-complaint");
+    let landlineCheckbox = $("#landline-button");
+    landlineCheckbox.keypress(function (key) {
+       if(key.which === 32) {
+           $(this).trigger("click");
+       }
+    });
+
+    // Make Anonymous complaint checkbox button toggle confirmation Modal
+    let anonCheckbox = $("#anonymous-complaint");
     anonCheckbox.keypress(function(key) {
         if(key.which === 32) {
             $(this).trigger("click");
         }
     });
     anonCheckbox.click(function() {
-        var contactForm = $("#contact-info-collapsible");
-        contactForm.toggleClass("d-none");
-        if(contactForm.attr("aria-expanded") == "false") {
-            contactForm.attr("aria-expanded", "true");
+        if($(this).prop("checked") === true) {
+            $("#confirm-anon-modal").modal();
         }
-        else {contactForm.attr("aria-expanded", "false");}
     });
+
+    // Make "Go Back" & "submit" buttons clickable w/spacebar & enter
+    let buttons = [$("#cancel-anonymous-report"), $("#submit-anonymous-report")];
+    for(i = 0; i < 2; i++) {
+         buttons[i].keypress(function (key) {
+             if(key.which === 32 || key.which === 13) {
+                 $(this).trigger("click");
+             }
+         });
+    }
+
+    // Dismissing modal triggers reset of "anonymous" button
+    let modal = $("#confirm-anon-modal");
+    modal.on("hide.bs.modal", function() {
+        anonCheckbox.trigger("click");
+    });
+
+    // ToDo: Submit-anonymous submits entire form (might need to bypass validation)
 
     return false;
 });

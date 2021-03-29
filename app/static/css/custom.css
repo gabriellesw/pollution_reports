@@ -7,6 +7,7 @@
     --custom-accent-light: #BACBA9;
     --custom-accent-dark: #476A6F;
     --custom-accent-dark-transparent: rgba(71, 106, 111, .5);
+    --custom-accent-dark-semi-transparent: rgba(71, 106, 111, .75);
     /* Fonts */
     --header-font: 'Oswald', sans-serif;
     --body-font: 'Roboto', sans-serif;
@@ -103,7 +104,7 @@ body {
 }
 
 #map {
-    height: 600px;
+    min-height: 600px;
 }
 
 #ongoing-button-label {
@@ -114,11 +115,37 @@ body {
     background-color: var(--custom-accent-dark);
 }
 
+#landline-button-label {
+    background-color: var(--custom-accent-dark-transparent);
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+#landline-button-label:not(:disabled):not(.disabled).active {
+    background-color: var(--custom-accent-dark);
+}
+
 #anonymous-button-label {
     background-color: var(--custom-accent-dark-transparent);
 }
 
 #anonymous-button-label:not(:disabled):not(.disabled).active {
+    background-color: var(--custom-accent-dark);
+}
+
+#cancel-anonymous-report {
+    background-color: var(--custom-accent-dark-transparent);
+}
+
+#cancel-anonymous-report:hover, #cancel-anonymous-report:focus {
+    background-color: var(--custom-accent-dark-semi-transparent);
+}
+
+#submit-anonymous-report {
+    background-color: var(--custom-accent-dark-semi-transparent);
+}
+
+#submit-anonymous-report:hover, #submit-anonymous-report:focus {
     background-color: var(--custom-accent-dark);
 }
 
@@ -161,6 +188,6 @@ i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
     color: var(--custom-accent-dark);
 }
 
-span#is-it-ongoing, span#make-anonymous {
+span#is-it-ongoing, span#make-anonymous, span#is-landline {
     pointer-events: none;
 }

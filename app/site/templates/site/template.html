@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{#TODO: reduce px on mobile for all columns#}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,6 +38,35 @@
 {% else %}
 <body class="bg-color-black">
 {% endif %}
+
+{# This has to be outside of all other page elements to work properly #}
+<div class="modal fade" id="confirm-anon-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-anon-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-color-white-transparent">
+      <div class="modal-header bg-color-white-transparent pb-0">
+        <h5 class="modal-title header-font text-dark font-size-medium" id="confirm-anon-label">Confirm Anonymous Report</h5>
+      </div>
+      <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
+          <p>If you submit your report anonymously, your local pollution investigators will be unable to
+              contact you to verify your report, or tell you the status of your report. We are also unable
+              to use anonymous reports for some areas of polluter mapping. Anonymous reports are still
+              valuable, and we encourage you to submit your report anonymously if you are unable to
+              provide your location and contact information.
+
+          </p>
+          <p>If you need to submit your report anonymously, please click "Submit Anonymous
+              Report". Otherwise, please click "Go Back", and you will be able to enter
+              your location and other contact details before submitting.
+          </p>
+      </div>
+      <div class="modal-footer bg-color-white-transparent pt-0">
+        <button id="cancel-anonymous-report" type="button" class="btn btn-dark btn-block btn-sm text-light header-font font-size-medium" data-dismiss="modal">Go Back</button>
+        <button id="submit-anonymous-report" type="button" class="btn btn-dark btn-block text-light header-font font-size-medium btn-sm" data-dismiss="modal">Submit Anonymous Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
             <div class="row p-0">
@@ -154,9 +184,9 @@
                     </div>
                 </div>
 
-                <div class="row py-4">
-                    <div class="col-md-6">
-                        <h3 class="header-font font-size-medium text-dark">Your Contact Info</h3>
+                <div class="row pt-4">
+                    <div class="col-md-6 d-flex align-items-end">
+                        <h3 class="header-font font-size-medium text-dark m-0">Your Contact Info</h3>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group m-0 p-0">
@@ -166,13 +196,82 @@
                                     <span id="make-anonymous">No, Please Submit Anonymously</span>
                                 </label>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
+
+
                 <div id="contact-info-collapsible" class="form-group container-fluid m-0 p-0" aria-expanded="true">
-                    test
+                    <div class="row p-0">
+                        <div class="col-md-6">
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <input id="email" class="form-control body-font font-black font-size-x-small" type="email" placeholder="Email" aria-labelledby="email-label">
+                                    <label for="email" class="sr-only">Email</label>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <input id="confirm-email" class="form-control body-font font-black font-size-x-small" type="email" placeholder="Confirm Email" aria-labelledby="confirm-email-label">
+                                    <label for="confirm-email" class="sr-only">Confirm Email</label>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control font-black body-font font-size-x-small" placeholder="Phone" aria-label="Phone" aria-labelledby="phone-label">
+                                        <div class="input-group-append">
+                                            <div class="btn-group-toggle m-0 p-0" data-toggle="buttons">
+                                                <label role="button" id="landline-button-label" class="btn btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="landline-button">
+                                                    <input id="landline-button" type="checkbox" autocomplete="off">
+                                                    <span id="is-landline">My Phone is a Landline</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                contact opt-out checkbox & PP link
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <input id="first-name" class="form-control body-font font-black font-size-x-small" type="text" placeholder="First Name" aria-labelledby="first-name-label">
+                                    <label for="first-name" class="sr-only" id="first-name-label">First Name</label>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <input id="last-name" class="form-control body-font font-black font-size-x-small" type="text" placeholder="Last Name" aria-labelledby="last-name-label">
+                                    <label for="last-name" class="sr-only" id="last-name-label">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <input id="reporter_search" type="search" onFocus="geolocate()" autocomplete="fdsifaoenjeiop" placeholder="Search for your address or Intersection..." class="form-control body-font font-size-x-small" aria-labelledby="reporter-search-label">
+                                    <label id="reporter-search-label" for="reporter_search" class="sr-only">Search for your address or Intersection...</label>
+                                    <input type="hidden" id="lat" class="form-control ">
+                                    <input type="hidden" id="lng" class="form-control ">
+                                    <input type="hidden" id="street_number" class="form-control ">
+                                    <input type="hidden" id="locality" class="form-control ">
+                                    <input type="hidden" id="route" class="form-control ">
+                                    <input type="hidden" id="administrative_area_level_1" class="form-control ">
+                                    <input type="hidden" id="postal_code" class="form-control ">
+
+                                </div>
+                            </div>
+                            <div class="row-pt-2">
+                                <div class="col">
+                                    submit button
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
             </form>

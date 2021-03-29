@@ -58,8 +58,7 @@
       const addressType = component.types[0];
 
       if (addressComponents[addressType]) {
-        const val = component[addressComponents[addressType]];
-        document.getElementById(prefix + addressType).value = val;
+        document.getElementById(prefix + addressType).value = component[addressComponents[addressType]];
       }
     }
 
