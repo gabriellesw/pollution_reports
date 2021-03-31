@@ -47,11 +47,11 @@
         <h5 class="modal-title header-font text-dark font-size-medium" id="confirm-anon-label">Confirm Anonymous Report</h5>
       </div>
       <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
-          <p>If you submit your report anonymously, your local pollution investigators will be unable to
-              contact you to verify your report, or tell you the status of your report. We are also unable
-              to use anonymous reports for some areas of polluter mapping. Anonymous reports are still
-              valuable, and we encourage you to submit your report anonymously if you are unable to
-              provide your location and contact information.
+          <p>If you submit your report anonymously, your local air board and/or California EPA will be
+              unable to contact you to verify your report, or tell you the status of your report.
+              We are also unable to use anonymous reports for certain types of polluter maps.
+              Anonymous reports are still valuable, and we encourage you to submit your report
+              anonymously if you are unable to provide your location and contact information.
 
           </p>
           <p>If you need to submit your report anonymously, please click "Submit Anonymous
@@ -74,18 +74,16 @@
                 <div class="col-md px-5">
                     <nav>
                         <ul class="nav justify-content-center nav-fill header-font font-size-small">
-                            <li class="nav-item"><a class="text-white" href="{{ url_for('site.home') }}">Make a Report</a></li>
                             <li class="nav-item"><a class="text-white" href="{{ url_for('site.about') }}">About</a></li>
-                            <li class="nav-item"><a class="text-white" href="{{ url_for('site.privacy') }}">Privacy Policy</a></li>
+                            <li class="nav-item"><a class="text-white" href="javascript:">Privacy Policy</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </header>
-    <div class="container-fluid m-0 px-3 background-image">
+    <div class="container-fluid m-0 px-3 background-image py-3">
 
-
-        <div class="complaint-form-container container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="15">
+        <div id="complaint-form-container" class="container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="15">
             <div class="row py-0 px-5">
                 <div class="col">
                     <h1 class="header-font text-uppercase font-size-large text-center">Make a Report</h1>
@@ -153,7 +151,7 @@
                             </div>
 
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
-                                <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="ongoing-complaint">
+                                <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="ongoing-complaint">
                                     <input id="ongoing-complaint" type="checkbox" autocomplete="off">
                                     <span id="is-it-ongoing">Still Ongoing</span>
                                 </label>
@@ -191,8 +189,8 @@
                     <div class="col-md-6">
                         <div class="form-group m-0 p-0">
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
-                                <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="anonymous-complaint">
-                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off" aria-controls="contact-info-collapsible">
+                                <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="anonymous-complaint">
+                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off" aria-controls="contact-info">
                                     <span id="make-anonymous">No, Please Submit Anonymously</span>
                                 </label>
                             </div>
@@ -200,9 +198,7 @@
                     </div>
                 </div>
 
-
-
-                <div id="contact-info-collapsible" class="form-group container-fluid m-0 p-0" aria-expanded="true">
+                <div id="contact-info" class="form-group container-fluid m-0 p-0" aria-expanded="true">
                     <div class="row p-0">
                         <div class="col-md-6">
                             <div class="row pt-2">
@@ -223,7 +219,7 @@
                                         <input type="text" class="form-control font-black body-font font-size-x-small" placeholder="Phone" aria-label="Phone" aria-labelledby="phone-label">
                                         <div class="input-group-append">
                                             <div class="btn-group-toggle m-0 p-0" data-toggle="buttons">
-                                                <label role="button" id="landline-button-label" class="btn btn-dark btn-sm font-size-small font-white header-font button-checkbox" for="landline-button">
+                                                <label role="button" id="landline-button-label" class="btn btn-outline-secondary btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="landline-button">
                                                     <input id="landline-button" type="checkbox" autocomplete="off">
                                                     <span id="is-landline">My Phone is a Landline</span>
                                                 </label>
@@ -232,9 +228,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pt-2">
-                                contact opt-out checkbox & PP link
-                            </div>
+
                         </div>
 
                         <div class="col-md-6">
@@ -264,20 +258,149 @@
 
                                 </div>
                             </div>
-                            <div class="row-pt-2">
-                                <div class="col">
-                                    submit button
-                                </div>
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col">
+                        </div>
+                        <div class="col">
+                            <div class="btn-group-toggle mt-0" data-toggle="buttons">
+                                <label role="button" id="privacy-button-label" class="btn btn-block btn-dark btn-small font-size-small font-white header-font button-checkbox custom-button-checkbox" for="privacy-policy-button">
+                                    <input id="privacy-policy-button" type="checkbox" autocomplete="off" aria-labelledby="privacy-button-label" checked value="true" aria-controls="recommend-anonymous-modal">
+                                    <span id="privacy-policy-ok"><i class="fas fa-check" aria-hidden="true"></i> I Accept the </span>
+                                    <span id="privacy-policy-link-button" tabindex="0">Privacy Policy</span>
+                                </label>
                             </div>
                         </div>
-
                     </div>
+                    <div class="row pt-2 pb-5 mb-5">
+                        <div class="col">
+                            <div class="btn-group-toggle mt-0" data-toggle="buttons">
+                                <button id="submit-report" type="button" class="btn btn-dark btn-block text-light header-font font-size-large btn-lg">Submit Report Now</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </form>
 
         </div>
 
+        <div id="about-container" class="container-fluid bg-color-white-transparent parallax py-3 px-5" data-rellax-speed="5">
+            <h3 id="about" class="text-center header-font font-black font-size-large text-uppercase mb-4">About</h3>
+            <div class="row">
+                <div class="col-md font-size-x-small body-font font-black">
+                    <h4 class="text-center header-font font-black font-size-small">Purpose</h4>
+                    <p>
+                        Right now in California, millions of us are living, working, and going to school
+                        surrounded by toxic air. This pollution comes from oil refineries, foundries,
+                        and other stationary sources. The burden largely falls on low-income Black and
+                        Brown communities--communities who frequently face catastrophic rates of asthma,
+                        heart attack, and stroke because of unsafe air.
+                    </p>
+
+                    <p>
+                        Many people do not realize that the "off" smell next to their kid's elementary
+                        school or their workplace is due to a dangerous factory nearby. There is very
+                        little transparency from regulators or corporations around this. Many of these
+                        polluters are "grandfathered in", and can only be stopped by a concerted
+                        community effort.
+                    </p>
+                    <p>
+                        Previously, the primary way for a community member to address air quality issues
+                        was to contact their local air board or the California EPA. From there, it is
+                        not easy to tell what happens to your report. It's also not possible to see
+                        how many other people have reported the same polluters, or to get a sense of
+                        how the pollution might be affecting your neighborhood.
+                    </p>
+                    <p>
+                        Furthermore, individuals complaining to local regulators in isolation are not
+                        given any way to organize around these issues within their communities.
+                    </p>
+
+                    <p>
+                        Our hope is that this app will help us more effectively hold polluters and regulators
+                        accountable, so that we can build a California where everyone has access to
+                        clean air.
+                    </p>
+
+                    <p>
+                        This app was created by Gabrielle Sloane Law, in collaboration with
+                        <a href="https://cbecal.org" target="_blank" rel="nofollow noreferrer">
+                            Communities for a Better Environment</a>. The full site code can be found on
+                        <a href="https://github.com/gabriellesw/pollution_reports" target="_blank" rel="nofollow noreferrer">
+                            Github</a>, and your code feedback and collaboration is welcome.
+                        We hope to add interactive maps soon, so you can learn about the polluters
+                        in your neighborhood.
+                    </p>
+
+
+                </div>
+                <div class="col-md body-font font-black font-size-x-small mt-4 mt-md-0">
+                    <h4 class="text-center header-font font-black font-size-small">How it Works</h4>
+                    <p>
+                        First, your complaint is sent directly to the California EPA using their existing
+                        <a href="https://calepacomplaints.secure.force.com/complaints/complaintcontact" target="_blank" rel="nofollow noreferrer">Complaint System</a>.
+                        Once the complaint is submitted, you will receive a confirmation number. Please
+                        read the CalEPA <a href="https://calepa.ca.gov/enforcement/complaints/faqs/" target="_blank" rel="nofollow noreferrer">FAQ</a>
+                        for info about what will happen to your complaint once it is sent to the CalEPA.
+                    </p>
+                    <p>
+                        Second, a copy of your complaint is sent securely to
+                        <a href="https://cbecal.org" target="_blank" rel="nofollow noreferrer">
+                            Communities for a Better Environment</a>.
+                        This copy is used to perform critical research, outreach, and mapping. By
+                        submitting a complaint through this system, you will allow us to do the following:
+                    </p>
+                    <ul>
+                        <li>
+                            Publicly track and share trends in air pollution and its impact on public health
+                        </li>
+                        <li>
+                            Perform critical independent academic and legal research
+                        </li>
+                        <li>
+                            Help you connect and organize with other concerned members of your community.
+                        </li>
+                    </ul>
+                    <p>
+                        Third, anonymized partial complaint data is saved for mapping purposes.
+                        This includes the polluter location, block-level reporter location, and
+                        basic information about the observed pollution (such as pollution type
+                        and observation time). This is the information that will eventually be
+                        used to create maps on this site. All other information (name, contact
+                        info, etc.) will be discarded.
+                    </p>
+                    <p>
+                        If you have other ideas about what we should do, please send an email
+                        to
+                        <script type="text/javascript">
+                            first = "pollution";
+                            second = "reports";
+                            domain = "gmail";
+                            suffix = "com";
+
+                            combined = first + second + "@" + domain + "." + suffix;
+
+                            cmd1 = "mai"
+                            cmd2 = "lto:"
+
+                            document.write(
+                                '<a h' +'re' +'f="' + cmd1 + cmd2 + combined +'">'
+                                + combined + '</' + 'a>'
+                            );
+
+                        </script>.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer id="footer" class="container-fluid bg-color-white-transparent">
+            test
+        </footer>
     </div>
 
     <script type="text/javascript">

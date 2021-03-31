@@ -26,12 +26,31 @@ $(document).ready(function () {
             $(this).trigger("click");
         }
     });
+    let complaintCheckDescription = $("#is-it-ongoing");
+    complaintCheckbox.click(function() {
+        if($(this).prop("checked") === true) {
+            complaintCheckDescription.html('<i class="fas fa-check" aria-hidden="true"></i> Still Ongoing');
+        }
+        else {
+            complaintCheckDescription.text("Still Ongoing");
+        }
+    })
 
     let landlineCheckbox = $("#landline-button");
     landlineCheckbox.keypress(function (key) {
        if(key.which === 32) {
            $(this).trigger("click");
        }
+    });
+
+    let landLineDescription = $("#is-landline");
+    landlineCheckbox.click(function() {
+        if($(this).prop("checked") === true) {
+            landLineDescription.html('<i class="fas fa-check" aria-hidden="true"></i> My Phone is a Landline');
+        }
+        else {
+            landLineDescription.text(" My Phone is a Landline");
+        }
     });
 
     // Make Anonymous complaint checkbox button toggle confirmation Modal
@@ -45,6 +64,36 @@ $(document).ready(function () {
         if($(this).prop("checked") === true) {
             $("#confirm-anon-modal").modal();
         }
+    });
+
+    let privacyPolicy = $("#privacy-policy-button");
+    privacyPolicy.keypress(function(key) {
+        if(key.which === 32) {
+            $(this).trigger("click");
+        }
+    });
+
+    let privacyPolicyOK = $("#privacy-policy-ok");
+    privacyPolicy.click(function() {
+        if($(this).prop("checked") === true) {
+            privacyPolicyOK.html('<i class="fas fa-check" aria-hidden="true"></i> I Accept the ');
+        }
+        else {
+            privacyPolicyOK.text('I Accept the ');
+            // ToDo: switch placeholder for PP required modal
+            $("#confirm-anon-modal").modal();
+        }
+    });
+
+    let privacyPolicyLink = $("#privacy-policy-link-button");
+    privacyPolicyLink.keypress(function (key) {
+        if(key.which === 32 || key.which ===13) {
+            $(this).trigger("click");
+        }
+    });
+    privacyPolicyLink.click(function () {
+        // ToDo: switch placeholder for PP modal
+        $("#confirm-anon-modal").modal();
     });
 
     // Make "Go Back" & "submit" buttons clickable w/spacebar & enter
@@ -61,6 +110,8 @@ $(document).ready(function () {
     let modal = $("#confirm-anon-modal");
     modal.on("hide.bs.modal", function() {
         anonCheckbox.trigger("click");
+        // ToDo: move to PP required modal
+        privacyPolicy.trigger("click");
     });
 
     // ToDo: Submit-anonymous submits entire form (might need to bypass validation)

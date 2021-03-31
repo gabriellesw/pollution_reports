@@ -95,42 +95,27 @@ body {
 
 .background-image {
     background-image: url("../images/smokestacks.jpeg");
-    height: 100%;
     background-position-y: top;
     background-position-x: center;
     background-repeat: no-repeat;
     background-size: cover;
-    min-height: 800px;
 }
 
 #map {
     min-height: 600px;
 }
 
-#ongoing-button-label {
-    background-color: var(--custom-accent-dark-transparent);
-}
-
-#ongoing-button-label:not(:disabled):not(.disabled).active {
-    background-color: var(--custom-accent-dark);
-}
-
 #landline-button-label {
-    background-color: var(--custom-accent-dark-transparent);
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
 }
 
-#landline-button-label:not(:disabled):not(.disabled).active {
-    background-color: var(--custom-accent-dark);
+.custom-button-checkbox {
+    background-color: var(--custom-accent-dark-transparent) !important;
 }
 
-#anonymous-button-label {
-    background-color: var(--custom-accent-dark-transparent);
-}
-
-#anonymous-button-label:not(:disabled):not(.disabled).active {
-    background-color: var(--custom-accent-dark);
+.custom-button-checkbox:not(:disabled):not(.disabled).active {
+    background-color: var(--custom-accent-dark) !important;
 }
 
 #cancel-anonymous-report {
@@ -146,6 +131,14 @@ body {
 }
 
 #submit-anonymous-report:hover, #submit-anonymous-report:focus {
+    background-color: var(--custom-accent-dark);
+}
+
+#submit-report {
+    background-color: var(--custom-accent-dark-semi-transparent);
+}
+
+#submit-report:hover, #submit-report:focus {
     background-color: var(--custom-accent-dark);
 }
 
@@ -188,6 +181,15 @@ i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
     color: var(--custom-accent-dark);
 }
 
-span#is-it-ongoing, span#make-anonymous, span#is-landline {
+span#is-it-ongoing, span#make-anonymous, span#is-landline, span#privacy-policy-ok {
     pointer-events: none;
+}
+
+#privacy-policy-link-button {
+    color: var(--custom-white-transparent);
+}
+
+#privacy-policy-link-button:hover {
+    color: var(--custom-white);
+    text-decoration: underline;
 }
