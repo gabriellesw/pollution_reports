@@ -39,7 +39,7 @@
 <body class="bg-color-black">
 {% endif %}
 
-{# This has to be outside of all other page elements to work properly #}
+{# These have to be outside of all other page elements to work properly #}
 <div class="modal fade" id="confirm-anon-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-anon-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content bg-color-white-transparent">
@@ -67,6 +67,123 @@
   </div>
 </div>
 
+<div class="modal fade" id="privacy-policy-modal" tabindex="-1" role="dialog" aria-labelledby="privacy-policy-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content bg-color-white-transparent">
+      <div class="modal-header bg-color-white-transparent pb-0">
+        <h5 class="modal-title header-font text-dark font-size-medium" id="privacy-policy-modal-label">Privacy Policy</h5>
+      </div>
+      <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
+          <p>Pollution Reports and Communities for a Better Environment (CBE) does not
+              use tracking cookies on this site. However, this site uses Google ReCaptcha to prevent
+              form submissions from bots.
+          </p>
+          <p>
+              This site also uses Google Maps and Google Location Services. When you click the
+              Polluter Search box or the box for entering your own address, the Google Maps
+              service will first attempt to locate your device in order to reduce the pool
+              of potential search results. Anything you type into either of the two address
+              search boxes will be sent to Google, so that Google can retrieve likely results.
+              If you choose a result, that choice will also be sent to Google.
+          </p>
+          <p>
+              We do not send any other form fields to Google, but we cannot guarantee that Google
+              is not collecting additional information about your usage of this site.
+              By using this site or the pollution reporting tool, you are subject to the
+              <a href="https://policies.google.com/privacy" target="_blank" rel="nofollow noreferrer">
+                  Google Privacy Policy</a>, and the
+              <a href="https://policies.google.com/terms" target="_blank" rel="nofollow noreferrer">Google Terms of Service</a>.
+          </p>
+          <p>
+              The information you enter in your pollution report will be sent securely to
+              the following entities:
+          </p>
+          <ol>
+              <li>The California EPA <a href="https://calepa.ca.gov/privacy-policy/" target="_blank" rel="nofollow noreferrer">[Privacy Policy]</a></li>
+              <li>Communities for a Better Environment</li>
+              <li>A secure server connected to this site, for mapping purposes</li>
+          </ol>
+
+          <p>When CalEPA receives your complaint, they may forward it to your local Air Quality Management
+              District or other relevant enforcement agency. You may be contacted by this agency to
+              gather further information or validate your complaint. An investigator may wish to meet
+              you in person to discuss your concerns, or to ask for your help locating the source
+              of the pollution.
+          </p>
+          <p>
+              When CBE receives a copy of your complaint, they may contact you to discuss your concerns.
+              They may send you emails, phone calls, or text messages to keep you informed of air
+              quality issues in your neighborhood. Your report may be used by their Research and
+              Legal teams to advance CBE's fight for Environmental Justice. Your information may be
+              transmitted internally between these teams in furtherance of this goal.
+          </p>
+          <p>
+              The mapping data that we save consists of an anonymized partial copy of your report,
+              containing polluter location (address), reporter location (lat/long rounded up to block-level
+              or lower resolution), pollution type, your description of pollution, time, and date--with
+              names, contact information, and street addresses removed. Your report will be combined
+              with others to create maps and perform analyses that will be publicly viewable on this
+              site. Your name and contact information will be permanently stripped from all mapping data.
+          </p>
+          <p>
+              If you do not want CalEPA or CBE to contact you, or if you do not want your block-level
+              location data to be included in our mapping dataset, we recommend that you submit your
+              report anonymously. If you do not want to be subject to the Google Policies necessitated
+              by our use of Google Maps and ReCaptcha, you should not use this form to report pollution.
+              You should instead use the <a href="https://calepacomplaints.secure.force.com/complaints/complaintcontact" target="_blank" rel="nofollow noreferrer">
+              CalEPA complaint system</a>.
+          </p>
+
+          <p>
+              While we reserve the right to change this policy in the future, note that we will never sell,
+              or rent your personal information. Furthermore, your information will only ever be shared
+              by us with the following types of entities:
+          </p>
+          <ul>
+              <li>
+                  Pollution-regulating government agencies (such as the California EPA)
+              </li>
+              <li>
+                  Environmental Justice Community Organizations and their supporting
+                  Research and Legal Teams (as in the case of Communities for a Better Environment).
+              </li>
+              <li>
+                  Third-party academic or community researchers who have been approved by
+                  EJ Community Organizations already in possession of the data.
+              </li>
+          </ul>
+          <p>
+              If additional agencies, organizations, or researchers are added to the list of recipients,
+              this will be reflected in an updated privacy policy before any data is transmitted to
+              new organizations. Because only anonymized data is retained by this site, we are unable
+              to notify people who have made previous reports about upcoming changes to the Privacy Policy.
+              If you have any additional questions about how your data is used, please email us at
+                <script type="text/javascript">
+                    first = "pollution";
+                    second = "reports";
+                    domain = "gmail";
+                    suffix = "com";
+
+                    combined = first + second + "@" + domain + "." + suffix;
+
+                    cmd1 = "mai"
+                    cmd2 = "lto:"
+
+                    document.write(
+                        '<a h' +'re' +'f="' + cmd1 + cmd2 + combined +'">'
+                        + combined + '</' + 'a>'
+                    );
+
+                </script>.
+          </p>
+      </div>
+      <div class="modal-footer bg-color-white-transparent pt-0">
+        <button id="cancel-anonymous-report" type="button" class="btn btn-dark btn-block btn-sm text-light header-font font-size-medium" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
             <div class="row p-0">
@@ -74,8 +191,8 @@
                 <div class="col-md px-5">
                     <nav>
                         <ul class="nav justify-content-center nav-fill header-font font-size-small">
-                            <li class="nav-item"><a class="text-white" href="{{ url_for('site.about') }}">About</a></li>
-                            <li class="nav-item"><a class="text-white" href="javascript:">Privacy Policy</a></li>
+                            <li class="nav-item"><a class="text-white" href="#about">About</a></li>
+                            <li class="nav-item"><a class="text-white" href="javascript:" data-toggle="modal" data-target="#privacy-policy-modal">Privacy Policy</a></li>
                         </ul>
                     </nav>
                 </div>

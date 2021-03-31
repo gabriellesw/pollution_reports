@@ -93,7 +93,7 @@ $(document).ready(function () {
     });
     privacyPolicyLink.click(function () {
         // ToDo: switch placeholder for PP modal
-        $("#confirm-anon-modal").modal();
+        $("#privacy-policy-modal").modal();
     });
 
     // Make "Go Back" & "submit" buttons clickable w/spacebar & enter
