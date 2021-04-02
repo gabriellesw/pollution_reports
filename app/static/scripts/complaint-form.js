@@ -80,8 +80,7 @@ $(document).ready(function () {
         }
         else {
             privacyPolicyOK.text('I Accept the ');
-            // ToDo: switch placeholder for PP required modal
-            $("#confirm-anon-modal").modal();
+            $("#pp-required-modal").modal();
         }
     });
 
@@ -92,7 +91,6 @@ $(document).ready(function () {
         }
     });
     privacyPolicyLink.click(function () {
-        // ToDo: switch placeholder for PP modal
         $("#privacy-policy-modal").modal();
     });
 
@@ -110,11 +108,19 @@ $(document).ready(function () {
     let modal = $("#confirm-anon-modal");
     modal.on("hide.bs.modal", function() {
         anonCheckbox.trigger("click");
-        // ToDo: move to PP required modal
+    });
+
+    let ppRequired = $("#pp-required-modal");
+    ppRequired.on("hide.bs.modal", function() {
         privacyPolicy.trigger("click");
     });
 
-    // ToDo: Submit-anonymous submits entire form (might need to bypass validation)
+    let submitAnon = $("#submit-anonymous-report");
+    let submit = $("#submit-report")
+    submitAnon.click(function () {
+        submit.trigger("click");
+    });
 
     return false;
+
 });

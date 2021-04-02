@@ -193,3 +193,7 @@ span#is-it-ongoing, span#make-anonymous, span#is-landline, span#privacy-policy-o
     color: var(--custom-white);
     text-decoration: underline;
 }
+
+#rc-anchor-container {
+    background-color: transparent;
+}

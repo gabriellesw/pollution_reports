@@ -16,21 +16,13 @@
     <title>Pollution Reports</title>
     <script src="{{ url_for('static', filename='scripts/node_modules/rellax/rellax.js') }}"></script>
     <script src="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/js/datepicker.min.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     {# ToDo: minify all local static js & css #}
     <link rel="stylesheet" href="{{ url_for('static', filename='scripts/node_modules/ab-datepicker/css/datepicker.css') }}" type="text/css">
-
-
-    {# ToDo: move all scripts that aren't used everywhere into a block instead of checking for arguments#}
     <script src="{{ url_for('static', filename='scripts/complaint-form.js') }}"></script>
-    {% if places_api_key %}
-        <script
-            async="false"
-            src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initAutocomplete&libraries=places&v=weekly"
-            >
-        </script>
-        <script async="false" src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
-    {% endif %}
+    <script defer src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key={{ places_api_key }}&callback=initAutocomplete&libraries=places&v=weekly"></script>
 
 </head>
 {% if places_api_key %}
@@ -71,7 +63,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content bg-color-white-transparent">
       <div class="modal-header bg-color-white-transparent pb-0">
-        <h5 class="modal-title header-font text-dark font-size-medium" id="privacy-policy-modal-label">Privacy Policy</h5>
+        <h5 class="modal-title header-font text-dark font-size-medium" id="privacy-policy-modal-label">Privacy and Contact Policy</h5>
       </div>
       <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
           <p>Pollution Reports and Communities for a Better Environment (CBE) does not
@@ -99,7 +91,7 @@
               the following entities:
           </p>
           <ol>
-              <li>The California EPA <a href="https://calepa.ca.gov/privacy-policy/" target="_blank" rel="nofollow noreferrer">[Privacy Policy]</a></li>
+              <li>The California EPA</li>
               <li>Communities for a Better Environment</li>
               <li>A secure server connected to this site, for mapping purposes</li>
           </ol>
@@ -108,22 +100,28 @@
               District or other relevant enforcement agency. You may be contacted by this agency to
               gather further information or validate your complaint. An investigator may wish to meet
               you in person to discuss your concerns, or to ask for your help locating the source
-              of the pollution.
+              of the pollution. Your report may be used for other purposes, which are governed by the
+              CalEPA <a href="https://calepa.ca.gov/privacy-policy/" target="_blank" rel="nofollow noreferrer">Privacy Policy</a></li>
           </p>
           <p>
-              When CBE receives a copy of your complaint, they may contact you to discuss your concerns.
+              When CBE receives a copy of your report, they may contact you to discuss your concerns.
               They may send you emails, phone calls, or text messages to keep you informed of air
-              quality issues in your neighborhood. Your report may be used by their Research and
+              quality issues in your neighborhood. You may incur phone or text charges as a result of
+              these messages. If you are contacted by CBE, you will have the option to opt out of future
+              contact from the organization. Furthermore, your report may be used by their Research and
               Legal teams to advance CBE's fight for Environmental Justice. Your information may be
-              transmitted internally between these teams in furtherance of this goal.
+              transmitted internally between these teams in furtherance of this goal. You will not have
+              the option to later opt out of having your report used for this purpose.
           </p>
           <p>
-              The mapping data that we save consists of an anonymized partial copy of your report,
-              containing polluter location (address), reporter location (lat/long rounded up to block-level
-              or lower resolution), pollution type, your description of pollution, time, and date--with
-              names, contact information, and street addresses removed. Your report will be combined
-              with others to create maps and perform analyses that will be publicly viewable on this
-              site. Your name and contact information will be permanently stripped from all mapping data.
+              When we save the third copy of your report on our server for mapping purposes, we
+              will save only a partial copy that has been de-identified. This copy will contain the polluter
+              location (address), your partial location (lat/long rounded up to block-level or lower resolution),
+              pollution type, your description of pollution, time, and date. This abridged report will be
+              combined with others to create maps and perform analyses that may eventually become publicly
+              viewable on this website. Your name and contact information will be permanently stripped from
+              this copy. If you submit a report, and later decide that you do not want your report used for
+              mapping, we may be unable to locate this de-identified copy in order to remove it.
           </p>
           <p>
               If you do not want CalEPA or CBE to contact you, or if you do not want your block-level
@@ -135,27 +133,30 @@
           </p>
 
           <p>
-              While we reserve the right to change this policy in the future, note that we will never sell,
-              or rent your personal information. Furthermore, your information will only ever be shared
-              by us with the following types of entities:
+              While we reserve the right to change this policy in the future, we will never sell,
+              or rent your personal information for any reason. Furthermore, your information will only
+              ever be shared by us for the purposes of researching and and fighting air pollution, and
+              only ever with the following types of entities:
           </p>
           <ul>
               <li>
-                  Pollution-regulating government agencies (such as the California EPA)
+                  Pollution-regulating government agencies (such as the California EPA or local air boards)
               </li>
               <li>
                   Environmental Justice Community Organizations and their supporting
                   Research and Legal Teams (as in the case of Communities for a Better Environment).
               </li>
               <li>
-                  Third-party academic or community researchers who have been approved by
-                  EJ Community Organizations already in possession of the data.
+                  Third-party professionals or volunteers, who have been approved by the makers of this
+                  site, for the purposes of performing research, creating maps, dashboards or analyses,
+                  or otherwise working to use the data to inform the public about the effects of air
+                  pollution.
               </li>
           </ul>
           <p>
               If additional agencies, organizations, or researchers are added to the list of recipients,
               this will be reflected in an updated privacy policy before any data is transmitted to
-              new organizations. Because only anonymized data is retained by this site, we are unable
+              new recipients. Because only anonymized data is retained by this site, we are unable
               to notify people who have made previous reports about upcoming changes to the Privacy Policy.
               If you have any additional questions about how your data is used, please email us at
                 <script type="text/javascript">
@@ -175,6 +176,29 @@
                     );
 
                 </script>.
+          </p>
+      </div>
+      <div class="modal-footer bg-color-white-transparent pt-0">
+        <button id="cancel-anonymous-report" type="button" class="btn btn-dark btn-block btn-sm text-light header-font font-size-medium" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="pp-required-modal" tabindex="-1" role="dialog" aria-labelledby="pp-required-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-color-white-transparent">
+      <div class="modal-header bg-color-white-transparent pb-0">
+        <h5 class="modal-title header-font text-dark font-size-medium" id="pp-required-modal-label">Cannot Submit Report</h5>
+      </div>
+      <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
+          <p>
+              In order to submit your report using this tool, you must agree to the Privacy Policy.
+              You do not have to include all of your contact information in the form, and you can
+              also submit the form anonymously to further limit the amount of information that we
+              keep. If you do not wish to accept this policy, please do not use this form, but use
+              the <a href="https://calepacomplaints.secure.force.com/complaints/complaintcontact" target="_blank" rel="nofollow noreferrer">
+              CalEPA complaint system</a> instead.
           </p>
       </div>
       <div class="modal-footer bg-color-white-transparent pt-0">
@@ -206,22 +230,20 @@
                     <h1 class="header-font text-uppercase font-size-large text-center">Make a Report</h1>
                 </div>
             </div>
-            <form role="form" aria-label="Form for reporting pollution">
-
+            <form id="report-pollution-form" role="form" aria-label="Form for reporting pollution">
+                {{ form.hidden_tag() }}
                 <div class="row py-4">
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">Where was it?</h3>
                         <div class="form-group">
 
-                            <input id="polluter_search" type="search" onFocus="geolocate(true)" autocomplete="fdsifaoenjeiop" placeholder="Search for polluter..." class="form-control body-font font-size-x-small">
+                            {{ form.polluter_search(
+                                type="search",
+                                onFocus="geolocate(true)",
+                                autocomplete="fdsifaoenjeiop",
+                                placeholder="Search for polluter...",
+                                class="form-control body-font font-size-x-small") }}
                             <label for="polluter_search" class="sr-only">Search for polluter...</label>
-                            <input type="hidden" id="polluter_lat" class="form-control ">
-                            <input type="hidden" id="polluter_lng" class="form-control ">
-                            <input type="hidden" id="polluter_street_number" class="form-control ">
-                            <input type="hidden" id="polluter_locality" class="form-control ">
-                            <input type="hidden" id="polluter_route" class="form-control ">
-                            <input type="hidden" id="polluter_administrative_area_level_1" class="form-control ">
-                            <input type="hidden" id="polluter_postal_code" class="form-control ">
 
                             <figure role="figure">
                                 <div id="map" class="img-fluid rounded-sm mt-2"></div>
@@ -233,43 +255,27 @@
                     <div class="col-md-6">
                         <h3 class="header-font font-size-medium text-dark">When did it happen?</h3>
                         <div class="form-group pb-2">
-                            <input class="date form-control body-font font-size-x-small" id="date1" type="text" placeholder="m/d/yy" title="click the button to choose a different date"/>
+                            {{ form.date(id="date1", class="date form-control body-font font-size-x-small", placeholder="m/d/yyyy",title="click the button to choose a different date") }}
+                            <label for="date1" class="sr-only">Date in m/d/yyyy format...click the button to choose a different date</label>
 
                             <div class="container-fluid mt-2 p-0">
                                 <div class="input-group">
 
-                                <select class="form-control body-font font-size-x-small text-dark" id="hours">
-                                    {% for i in range(1, 13) %}
-                                        <option value="{{ i }}">{{ i }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ form.hour(id="hours", class="form-control body-font font-size-x-small text-dark") }}
                                 <label for="hours" class="sr-only">Hour</label>
 
-                                <select class="form-control body-font font-size-x-small text-dark" id="minutes">
-                                    {% for i in range(60) %}
-                                        {% if i < 10 %}
-                                            {% set val = "0%.0f"|format(i) %}
-                                        {% else %}
-                                            {% set val = i|string %}
-                                        {% endif %}
-
-                                        <option value={{ i }}>{{ val }}</option>
-                                    {% endfor %}
-                                </select>
+                                {{ form.minute(id="minutes", class="form-control body-font font-size-x-small text-dark") }}
                                 <label for="minutes" class="sr-only">Minute</label>
 
+                                {{ form.ampm(class="form-control body-font font-size-x-small text-dark") }}
                                 <label for="ampm" class="sr-only">AM/PM</label>
-                                <select class="form-control body-font font-size-x-small text-dark" id="ampm">
-                                    <option value="am">AM</option>
-                                    <option value="pm">PM</option>
-                                </select>
 
                             </div>
                             </div>
 
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
                                 <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="ongoing-complaint">
-                                    <input id="ongoing-complaint" type="checkbox" autocomplete="off">
+                                    {{ form.ongoing(id="ongoing-complaint", autocomplete="off") }}
                                     <span id="is-it-ongoing">Still Ongoing</span>
                                 </label>
                             </div>
@@ -279,19 +285,21 @@
                         <h3 class="header-font font-size-medium text-dark">Describe the pollution</h3>
                             <div class="container-fluid mt-2 p-0">
                                 <div class="input-group">
-                                    <select class="form-control body-font font-size-x-small text-dark" id="pollution-types">
-                                        {% for t in ["Odors/Fumes", "Smoke", "Dust", "Asbestos"] %}
-                                            <option value="{{ t }}">{{ t }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form.pollution_type(
+                                        id="pollution-types",
+                                        class="form-control body-font font-size-x-small text-dark") }}
                                     <div class="input-group-append">
                                         <label for="pollution-types" class="input-group-text body-font font-size-x-small text-dark">Type</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="container-fluid mt-2 p-0">
-                                <label for="pollution-description" class="sr-only">Describe the pollution you've witnessed in your own words. Odors, observed smoke or dust, sounds, and any other activity that you think will help investigators research and act upon your complaint.</label>
-                                <textarea class="form-control body-font font-size-x-small text-dark" id="pollution-description" rows="12" placeholder="Describe the pollution you've witnessed in your own words. Odors, observed smoke or dust, sounds, and any other activity that you think will help investigators research and act upon your complaint."></textarea>
+                                {{ form.description(
+                                        id="pollution-description",
+                                        class="form-control body-font font-size-x-small text-dark",
+                                        rows="12",
+                                        placeholder="Describe the pollution you've witnessed in your own words.") }}
+                                <label for="pollution-description" class="sr-only">Describe the pollution you've witnessed in your own words. </label>
                             </div>
                         </div>
 
@@ -306,8 +314,10 @@
                     <div class="col-md-6">
                         <div class="form-group m-0 p-0">
                             <div class="btn-group-toggle mt-2" data-toggle="buttons">
-                                <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="anonymous-complaint">
-                                    <input id="anonymous-complaint" type="checkbox" autocomplete="off" aria-controls="contact-info">
+                                    <label role="button" id="anonymous-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="anonymous-complaint">
+                                    {{ form.anonymous(
+                                            id="anonymous-complaint",
+                                            autocomplete="off") }}
                                     <span id="make-anonymous">No, Please Submit Anonymously</span>
                                 </label>
                             </div>
@@ -315,29 +325,47 @@
                     </div>
                 </div>
 
-                <div id="contact-info" class="form-group container-fluid m-0 p-0" aria-expanded="true">
+                <div id="contact-info" class="form-group container-fluid m-0 p-0">
                     <div class="row p-0">
                         <div class="col-md-6">
                             <div class="row pt-2">
                                 <div class="col">
-                                    <input id="email" class="form-control body-font font-black font-size-x-small" type="email" placeholder="Email" aria-labelledby="email-label">
+                                    {{ form.email(
+                                        id="email",
+                                        class="form-control body-font font-black font-size-x-small",
+                                        placeholder="Email",
+                                        type="email"
+                                    ) }}
                                     <label for="email" class="sr-only">Email</label>
                                 </div>
                             </div>
                             <div class="row pt-2">
                                 <div class="col">
-                                    <input id="confirm-email" class="form-control body-font font-black font-size-x-small" type="email" placeholder="Confirm Email" aria-labelledby="confirm-email-label">
+                                    {{ form.confirm_email(
+                                        id="confirm-email",
+                                        class="form-control body-font font-black font-size-x-small",
+                                        type="email",
+                                        placeholder="Confirm Email"
+                                    ) }}
                                     <label for="confirm-email" class="sr-only">Confirm Email</label>
                                 </div>
                             </div>
                             <div class="row pt-2">
                                 <div class="col">
                                     <div class="input-group">
-                                        <input type="text" class="form-control font-black body-font font-size-x-small" placeholder="Phone" aria-label="Phone" aria-labelledby="phone-label">
+                                        {{ form.phone(
+                                            id="phone",
+                                            class="form-control font-black body-font font-size-x-small",
+                                            placeholder="Phone"
+                                        ) }}
+                                        <label for="phone" class="sr-only">Phone</label>
                                         <div class="input-group-append">
                                             <div class="btn-group-toggle m-0 p-0" data-toggle="buttons">
                                                 <label role="button" id="landline-button-label" class="btn btn-outline-secondary btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="landline-button">
-                                                    <input id="landline-button" type="checkbox" autocomplete="off">
+                                                    {{ form.landline(
+                                                        id="landline-button",
+                                                        autocomplete="off"
+                                                    ) }}
                                                     <span id="is-landline">My Phone is a Landline</span>
                                                 </label>
                                             </div>
@@ -351,28 +379,34 @@
                         <div class="col-md-6">
                             <div class="row pt-2">
                                 <div class="col">
-                                    <input id="first-name" class="form-control body-font font-black font-size-x-small" type="text" placeholder="First Name" aria-labelledby="first-name-label">
-                                    <label for="first-name" class="sr-only" id="first-name-label">First Name</label>
+                                    {{ form.first_name(
+                                        id="first-name",
+                                        class="form-control body-font font-black font-size-x-small",
+                                        placeholder="First Name"
+                                    ) }}
+                                    <label for="first-name" class="sr-only">First Name</label>
                                 </div>
                             </div>
                             <div class="row pt-2">
                                 <div class="col">
-                                    <input id="last-name" class="form-control body-font font-black font-size-x-small" type="text" placeholder="Last Name" aria-labelledby="last-name-label">
-                                    <label for="last-name" class="sr-only" id="last-name-label">Last Name</label>
+                                    {{ form.last_name(
+                                        id="last-name",
+                                        class="form-control body-font font-black font-size-x-small",
+                                        placeholder="Last Name"
+                                    ) }}
+                                    <label for="last-name" class="sr-only">Last Name</label>
                                 </div>
                             </div>
                             <div class="row pt-2">
                                 <div class="col">
-                                    <input id="reporter_search" type="search" onFocus="geolocate()" autocomplete="fdsifaoenjeiop" placeholder="Search for your address or Intersection..." class="form-control body-font font-size-x-small" aria-labelledby="reporter-search-label">
-                                    <label id="reporter-search-label" for="reporter_search" class="sr-only">Search for your address or Intersection...</label>
-                                    <input type="hidden" id="lat" class="form-control ">
-                                    <input type="hidden" id="lng" class="form-control ">
-                                    <input type="hidden" id="street_number" class="form-control ">
-                                    <input type="hidden" id="locality" class="form-control ">
-                                    <input type="hidden" id="route" class="form-control ">
-                                    <input type="hidden" id="administrative_area_level_1" class="form-control ">
-                                    <input type="hidden" id="postal_code" class="form-control ">
-
+                                    {{ form.reporter_search(
+                                        type="search",
+                                        onFocus="geolocate()",
+                                        autocomplete="fdsifaoenjeiop",
+                                        placeholder="Search for your address or Intersection...",
+                                        class="form-control body-font font-size-x-small"
+                                    ) }}
+                                    <label for="reporter_search" class="sr-only">Search for your address or Intersection...</label>
                                 </div>
                             </div>
                         </div>
@@ -383,17 +417,25 @@
                         <div class="col">
                             <div class="btn-group-toggle mt-0" data-toggle="buttons">
                                 <label role="button" id="privacy-button-label" class="btn btn-block btn-dark btn-small font-size-small font-white header-font button-checkbox custom-button-checkbox" for="privacy-policy-button">
-                                    <input id="privacy-policy-button" type="checkbox" autocomplete="off" aria-labelledby="privacy-button-label" checked value="true" aria-controls="recommend-anonymous-modal">
+                                    {{ form.privacy_contact_ok(
+                                        id="privacy-policy-button",
+                                        autocomplete="off"
+                                    ) }}
                                     <span id="privacy-policy-ok"><i class="fas fa-check" aria-hidden="true"></i> I Accept the </span>
-                                    <span id="privacy-policy-link-button" tabindex="0">Privacy Policy</span>
+                                    <span id="privacy-policy-link-button" tabindex="0">Privacy and Contact Policy</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="row pt-2 pb-5 mb-5">
                         <div class="col">
-                            <div class="btn-group-toggle mt-0" data-toggle="buttons">
-                                <button id="submit-report" type="button" class="btn btn-dark btn-block text-light header-font font-size-large btn-lg">Submit Report Now</button>
+                            <div class="form-group mt-0">
+                                <button id="submit-report"
+                                        class="g-recaptcha btn btn-dark btn-block text-light header-font font-size-large btn-lg"
+                                        data-callback="submitForm"
+                                        data-action="submit"
+                                        data-sitekey="{{ recaptcha_public_key }}"
+                                >Submit Report Now</button>
                             </div>
                         </div>
                     </div>
@@ -421,11 +463,13 @@
                         Many people do not realize that the "off" smell next to their kid's elementary
                         school or their workplace is due to a dangerous factory nearby. There is very
                         little transparency from regulators or corporations around this. Many of these
-                        polluters are "grandfathered in", and can only be stopped by a concerted
-                        community effort.
+                        polluters are "grandfathered in"; their right to operate comes from an era when
+                        environmental protections were more lax. Regulators are unwilling or unable to
+                        revoke their permits, and they can only be stopped with a well-organized community
+                        effort.
                     </p>
                     <p>
-                        Previously, the primary way for a community member to address air quality issues
+                        Previously, the "official" way for a community member to address air quality issues
                         was to contact their local air board or the California EPA. From there, it is
                         not easy to tell what happens to your report. It's also not possible to see
                         how many other people have reported the same polluters, or to get a sense of
@@ -521,9 +565,14 @@
     </div>
 
     <script type="text/javascript">
-        var rellax = new Rellax('.parallax');
+        let rellax = new Rellax('.parallax');
     </script>
 
+    <script type="text/javascript">
+        function submitForm(token) {
+            document.getElementById("report-pollution-form").submit()
+        }
+    </script>
 
 </body>
 </html>
