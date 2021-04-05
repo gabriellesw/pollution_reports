@@ -3,3 +3,4 @@
 venv/**
 .idea/**
 **/app.db
+keys.json
