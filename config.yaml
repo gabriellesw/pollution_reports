@@ -9,15 +9,22 @@ defaults: &defaults
     DB_NAME: "app.db"
 
     # Model/Form settings
-    varchar_max: 100
+    varchar_max: 200
     text_max: 5000
-    date_format: "%-m/%-d/%Y"
+    date_format: "%m/%d/%Y"
     pollution_types:
-        - "Odors/Fumes"
-        - "Smoke"
+        - "Odors"
         - "Dust"
+        - "Smoke"
         - "Asbestos"
+        - "Gas Stations"
+        - "Painting"
+        - "Other Stationary Sources"
 
+    # Default values for EPA form
+    report_recipients: "Communities for a Better Environment, via pollutionreports.org"
+
+    # Values specified in .env file or explicitly in env
     LOAD_FROM_ENV:
         - "SECRET_KEY"
         - "PLACES_API_KEY"
@@ -26,6 +33,10 @@ defaults: &defaults
         - "DEV_RECAPTCHA_SECRET_KEY"
         - "PROD_RECAPTCHA_PUBLIC_KEY"
         - "PROD_RECAPTCHA_SECRET_KEY"
+        - "EPA_START_URL"
+        - "EPA_URL_1"
+        - "EPA_URL_2"
+        - "EPA_URL_3"
 
 development:
     # General app settings

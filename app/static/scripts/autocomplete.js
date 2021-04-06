@@ -4,9 +4,10 @@
 
   const addressComponents = {
     street_number: "short_name",
-    route: "short_name",
+    route: "long_name",
     locality: "long_name",
-    administrative_area_level_1: "short_name",
+    administrative_area_level_1: "long_name",
+    administrative_area_level_2: "long_name",
     postal_code: "short_name",
   };
 
@@ -44,8 +45,10 @@
     var prefix;
     if(polluter === true) {
       place = polluterSearch.getPlace();
+      document.getElementById("polluter_name").value = place.name;
       prefix = "polluter_";
     }
+
     else {
       place = reporterSearch.getPlace();
       prefix = "";
@@ -86,7 +89,7 @@
     });
   }
 
-  function geolocate(polluter=false) {
+  function geolocate(polluter= false) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const geolocation = {

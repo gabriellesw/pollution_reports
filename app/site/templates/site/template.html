@@ -53,7 +53,7 @@
       </div>
       <div class="modal-footer bg-color-white-transparent pt-0">
         <button id="cancel-anonymous-report" type="button" class="btn btn-dark btn-block btn-sm text-light header-font font-size-medium" data-dismiss="modal">Go Back</button>
-        <button id="submit-anonymous-report" type="button" class="btn btn-dark btn-block text-light header-font font-size-medium btn-sm" data-dismiss="modal">Submit Anonymous Report</button>
+        <button id="submit-anonymous-report" type="button" class="btn btn-dark btn-block text-light header-font font-size-medium btn-sm">Submit Anonymous Report</button>
       </div>
     </div>
   </div>
@@ -101,7 +101,7 @@
               gather further information or validate your complaint. An investigator may wish to meet
               you in person to discuss your concerns, or to ask for your help locating the source
               of the pollution. Your report may be used for other purposes, which are governed by the
-              CalEPA <a href="https://calepa.ca.gov/privacy-policy/" target="_blank" rel="nofollow noreferrer">Privacy Policy</a></li>
+              CalEPA <a href="https://calepa.ca.gov/privacy-policy/" target="_blank" rel="nofollow noreferrer">Privacy Policy</a>
           </p>
           <p>
               When CBE receives a copy of your report, they may contact you to discuss your concerns.
@@ -230,7 +230,7 @@
                     <h1 class="header-font text-uppercase font-size-large text-center">Make a Report</h1>
                 </div>
             </div>
-            <form id="report-pollution-form" role="form" aria-label="Form for reporting pollution">
+            <form id="report-pollution-form" role="form" aria-label="Form for reporting pollution" action="" method="post" novalidate>
                 {{ form.hidden_tag() }}
                 <div class="row py-4">
                     <div class="col-md-6">
@@ -277,6 +277,13 @@
                                 <label role="button" id="ongoing-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="ongoing-complaint">
                                     {{ form.ongoing(id="ongoing-complaint", autocomplete="off") }}
                                     <span id="is-it-ongoing">Still Ongoing</span>
+                                </label>
+                            </div>
+
+                            <div class="btn-group-toggle mt-2" data-toggle="buttons">
+                                <label role="button" id="refinery-button-label" class="btn btn-block btn-dark btn-sm font-size-small font-white header-font button-checkbox custom-button-checkbox" for="refinery">
+                                    {{ form.refinery(id="refinery", autocomplete="off") }}
+                                    <span id="is-refinery">Polluter is a Refinery</span>
                                 </label>
                             </div>
 

@@ -19,7 +19,25 @@ $(document).ready(function () {
     $("#minutes").val(currentDate.format("m"));
     $("#ampm").val(currentDate.format("a"));
 
+
     // Make checkbox buttons toggle-able with spacebar
+    let refineryCheckbox = $("#refinery");
+    refineryCheckbox.keypress(function(key) {
+        if(key.which === 32) {
+            $(this).trigger("click");
+        }
+    });
+    let refineryCheckDescription = $("#is-refinery");
+    refineryCheckbox.click(function() {
+        if($(this).prop("checked") === true) {
+            refineryCheckDescription.html('<i class="fas fa-check" aria-hidden="true"></i> Polluter is a Refinery');
+        }
+        else {
+            refineryCheckDescription.text("Polluter is a Refinery");
+        }
+    })
+
+
     let complaintCheckbox = $("#ongoing-complaint");
     complaintCheckbox.keypress(function(key) {
         if(key.which === 32) {
