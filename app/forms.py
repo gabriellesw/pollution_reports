@@ -62,4 +62,3 @@ class ComplaintForm(FlaskForm):
     phone = StringField(validators=[Optional(), Phone()])
     first_name = StringField(validators=[InputRequiredNA(), LengthNA(max=CONFIG.varchar_max)])
     last_name = StringField(validators=[InputRequiredNA(), LengthNA(max=CONFIG.varchar_max)])
-

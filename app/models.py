@@ -40,14 +40,25 @@ class Complaint(db.Model):
     # Button Checkboxes handled by complaint_form.js
     ongoing = db.Column(db.Boolean)
     anonymous = db.Column(db.Boolean)
+    refinery = db.Column(db.Boolean)
 
     # Fields that aren't set by JavaScript
     pollution_type = db.Column(db.String)
     description = db.Column(db.String)
 
     # Fields set after submission
-    recorded_date = db.Column(db.DateTime)
+    recorded_date = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     epa_confirmation_number = db.Column(db.String)
 
-    def set_block(self, street_number):
-        self.street_number = 100 * int(street_number / 100)
+    def set_block(self):
+        """
+        If reporter submitted address, round down to 100s to get a approximate
+        "block level" and provide some anonymity to reporter.
+        :return:
+        """
+        try:
+            clean_street_number = self.street_number.split(" ")[0]
+            block = str(int(100*float(clean_street_number)/100))
+            self.street_number = block
+        except ValueError:
+            self.street_number = ""

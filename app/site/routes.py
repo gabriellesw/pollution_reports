@@ -4,6 +4,7 @@ from lxml import html
 from flask import Blueprint, render_template, request, redirect, url_for
 from config import Config
 from app.forms import ComplaintForm, format_minute
+from app.models import Complaint, db
 
 site = Blueprint("site", __name__, template_folder="templates")
 
@@ -24,7 +25,7 @@ def _send_to_epa(form):
     :param form: WTForm
     :return: CalEPA confirmation number
     """
-    if CONFIG.TEST:
+    if CONFIG.TESTING:
         return "#COMP-TEST1"
 
     #ToDo: This is currently not working at step 3
@@ -156,7 +157,34 @@ def _send_to_epa(form):
         return complaint_number
 
 
-def process_form(form, model):
+def _save_local(form, epa_conf):
+    """
+    Save anonymized local copy of complaint
+    :param form: WTForm
+    :param epa_conf: String
+    :return: complaint ID
+    """
+    data = form.data.copy()
+    data.pop("csrf_token")
+    data.pop("reporter_search")
+    data.pop("lat")
+    data.pop("lng")
+    data.pop("first_name")
+    data.pop("last_name")
+    data.pop("email")
+    data.pop("confirm_email")
+    data.pop("phone")
+    data.pop("landline")
+    data.pop("privacy_contact_ok")
+    complaint = Complaint(**data)
+    complaint.set_block()
+    complaint.epa_confirmation_number = epa_conf
+    db.session.add(complaint)
+    db.session.commit()
+    return complaint.id
+
+
+def process_form(form):
     """
     Send data to EPA, Google Sheets, and local database
     :param form: WTForm
@@ -164,8 +192,8 @@ def process_form(form, model):
     :return: EPA Confirmation Number
     """
     confirmation_no = _send_to_epa(form)
-    # Do Stuff
-    return confirmation_no
+    local_id = _save_local(form, confirmation_no)
+    return confirmation_no, local_id
 
 
 @site.route("/", methods=["GET", "POST"])
@@ -173,7 +201,8 @@ def home():
     form = ComplaintForm()
     if form.validate_on_submit():
         # return redirect(url_for("site.home"))
-        return form.data
+        conf_no, local_id = process_form(form)
+        return f"{conf_no}\n{local_id}{form.data}"
     elif form.is_submitted():
         errors = []
         for field in form:
