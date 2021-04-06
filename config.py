@@ -21,12 +21,12 @@ class Config(FlaskConfig):
 
     @property
     def RECAPTCHA_SECRET_KEY(self):
-        if self.FLASK_ENV == "development" or self.FLASK_ENV == "testing":
+        if self.TESTING:
             return self.DEV_RECAPTCHA_SECRET_KEY
-        elif self.FLASK_ENV == "deployment":
-            return self.PROD_RECAPTCHA_SECRET_KEY
-        else:
-            raise NotImplementedError(
-                "Environment should be one of 'development', 'testing', or 'deployment'"
-            )
+        return self.PROD_RECAPTCHA_SECRET_KEY
 
+    @property
+    def GSHEET(self):
+        if self.TESTING:
+            return self.GSHEET_TEST
+        return self.GSHEET_PROD

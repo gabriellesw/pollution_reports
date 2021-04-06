@@ -3,8 +3,6 @@ defaults: &defaults
     SQLALCHEMY_TRACK_MODIFICATIONS: false
     SQLALCHEMY_ENGINE_OPTIONS:
         pool_pre_ping: true
-
-    # Database settings
     DB_PREFIX: "sqlite:///"
     DB_NAME: "app.db"
 
@@ -21,7 +19,7 @@ defaults: &defaults
         - "Painting"
         - "Other Stationary Sources"
 
-    # Default values for EPA form
+    # Default inputs for EPA form
     report_recipients: "Communities for a Better Environment, via pollutionreports.org"
 
     # Values specified in .env file or explicitly in env
@@ -37,6 +35,44 @@ defaults: &defaults
         - "EPA_URL_1"
         - "EPA_URL_2"
         - "EPA_URL_3"
+        - "GSHEET_TEST"
+        - "GSHEET_PROD"
+
+    GSHEET_COLS: # Order of columns for google sheet
+        - "first_name"
+        - "last_name"
+        - "phone"
+        - "landline"
+        - "email"
+        - "privacy_contact_ok"
+        - "anonymous"
+        - "lat"
+        - "lng"
+        - "street_number"
+        - "locality"
+        - "route"
+        - "administrative_area_level_1"
+        - "administrative_area_level_2"
+        - "postal_code"
+        - "reporter_search"
+        - "pollution_type"
+        - "date"
+        - "hour"
+        - "minute"
+        - "ampm"
+        - "description"
+        - "ongoing"
+        - "refinery"
+        - "polluter_name"
+        - "polluter_lat"
+        - "polluter_lng"
+        - "polluter_street_number"
+        - "polluter_route"
+        - "polluter_locality"
+        - "polluter_administrative_area_level_1"
+        - "polluter_administrative_area_level_2"
+        - "polluter_postal_code"
+        - "polluter_search"
 
 development:
     # General app settings

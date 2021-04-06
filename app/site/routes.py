@@ -1,4 +1,8 @@
 import requests
+import gspread
+import pathlib
+import sys
+from oauth2client.service_account import ServiceAccountCredentials
 from lxml import html
 
 from flask import Blueprint, render_template, request, redirect, url_for, send_from_directory
@@ -181,7 +185,46 @@ def _save_local(form, epa_conf):
     complaint.epa_confirmation_number = epa_conf
     db.session.add(complaint)
     db.session.commit()
-    return complaint.id
+    return complaint
+
+
+def _send_to_sheets(form, model):
+    """
+    Send detailed, combined report data to Google sheet
+    :param form: WTForm
+    :param model: db.Model
+    :return: None
+    """
+    scope = [
+        'https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive'
+    ]
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        pathlib.Path(__file__).parents[2].joinpath("keys.json"),
+        scope
+    )
+    client = gspread.authorize(credentials)
+    sheet = client.open(CONFIG.GSHEET).sheet1
+
+    gsheet_data = []
+
+    for k in CONFIG.GSHEET_COLS:
+        data = str(form.data[k])
+        gsheet_data.append(data)
+
+    gsheet_data.append(str(model.recorded_date))
+    gsheet_data.append(model.epa_confirmation_number)
+
+    if not sheet.get("A1"):
+        gsheet_headers = []
+        for k in CONFIG.GSHEET_COLS:
+            gsheet_headers.append(k)
+
+        gsheet_headers.append("recorded_date")
+        gsheet_headers.append("epa_confirmation_number")
+        sheet.append_row(gsheet_headers)
+
+    sheet.append_row(gsheet_data)
 
 
 def process_form(form):
@@ -192,8 +235,9 @@ def process_form(form):
     :return: EPA Confirmation Number
     """
     confirmation_no = _send_to_epa(form)
-    local_id = _save_local(form, confirmation_no)
-    return confirmation_no, local_id
+    complaint = _save_local(form, confirmation_no)
+    _send_to_sheets(form, complaint)
+    return confirmation_no
 
 
 @site.route("/", methods=["GET", "POST"])
@@ -201,8 +245,8 @@ def home():
     form = ComplaintForm()
     if form.validate_on_submit():
         # return redirect(url_for("site.home"))
-        conf_no, local_id = process_form(form)
-        return f"{conf_no}\n{local_id}{form.data}"
+        conf_no = process_form(form)
+        return f"{conf_no}\n{form.data}"
     elif form.is_submitted():
         errors = []
         for field in form:
@@ -211,7 +255,7 @@ def home():
         errors = "\n".join(errors)
         return f"{errors}\n\n\n{form.data}"
     return render_template(
-        "site/template.html",
+        "site/main.html",
         form=form,
         places_api_key=CONFIG.PLACES_API_KEY,
         recaptcha_public_key=CONFIG.RECAPTCHA_PUBLIC_KEY,
