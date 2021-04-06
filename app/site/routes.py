@@ -1,7 +1,7 @@
 import requests
 from lxml import html
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, send_from_directory
 from config import Config
 from app.forms import ComplaintForm, format_minute
 from app.models import Complaint, db
@@ -216,3 +216,8 @@ def home():
         places_api_key=CONFIG.PLACES_API_KEY,
         recaptcha_public_key=CONFIG.RECAPTCHA_PUBLIC_KEY,
     )
+
+
+@site.route('/favicon.ico')
+def favicon():
+    return redirect(url_for("static", filename="icons/favicon.ico"))
