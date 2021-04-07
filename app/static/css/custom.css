@@ -102,7 +102,13 @@ body {
 }
 
 #map {
-    min-height: 600px;
+    height: 600px;
+}
+
+@media only screen and (max-width: 768px) {
+    #map {
+        height: 400px;
+    }
 }
 
 #landline-button-label {
