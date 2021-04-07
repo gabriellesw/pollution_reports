@@ -133,6 +133,11 @@ $(document).ready(function () {
         privacyPolicy.trigger("click");
     });
 
+    let submitSuccess = $("#complaint-submitted-modal");
+    submitSuccess.on("hide.bs.modal", function () {
+        $("#ok-report-submitted-dismissed")[0].click();
+    })
+
     let submitAnon = $("#submit-anonymous-report");
     let submit = $("#submit-report")
     submitAnon.click(function () {

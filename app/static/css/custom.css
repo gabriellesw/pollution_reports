@@ -106,8 +106,8 @@ body {
 }
 
 #landline-button-label {
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .custom-button-checkbox {
@@ -134,11 +134,11 @@ body {
     background-color: var(--custom-accent-dark);
 }
 
-#submit-report {
+#submit-report, #ok-report-submitted {
     background-color: var(--custom-accent-dark-semi-transparent);
 }
 
-#submit-report:hover, #submit-report:focus {
+#submit-report:hover, #submit-report:focus, #ok-report-submitted:hover, #ok-report-submitted:focus {
     background-color: var(--custom-accent-dark);
 }
 
@@ -181,7 +181,7 @@ i.far.fa-calendar-alt:hover, i.far.fa-calendar-alt:focus {
     color: var(--custom-accent-dark);
 }
 
-span#is-it-ongoing, span#make-anonymous, span#is-landline, span#privacy-policy-ok {
+span#is-it-ongoing, span#make-anonymous, span#is-landline, span#privacy-policy-ok, span#is-refinery {
     pointer-events: none;
 }
 

@@ -45,6 +45,10 @@
 {% include "site/_confirm_anon_modal.html" %}
 {% include "site/_privacy_policy_modal.html" %}
 {% include "site/_pp_required_modal.html" %}
+{% if epa_confirmation_no %}
+    {{ epa_confirmation_no }}
+    {% include "site/_complaint_submitted_modal.html" %}
+{% endif %}
 
 <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
     <div class="row p-0">

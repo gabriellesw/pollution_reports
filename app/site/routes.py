@@ -1,11 +1,11 @@
 import requests
 import gspread
 import pathlib
-import sys
+
 from oauth2client.service_account import ServiceAccountCredentials
 from lxml import html
 
-from flask import Blueprint, render_template, request, redirect, url_for, send_from_directory
+from flask import Blueprint, render_template, request, redirect, url_for
 from config import Config
 from app.forms import ComplaintForm, format_minute
 from app.models import Complaint, db
@@ -22,17 +22,18 @@ def _send_to_epa(form):
     publicly-available API or service for submitting reports between organizations or
     agencies.
 
-    We are basically relying on the fact that this organization is unlikely to have the
-    resources to change their complaint form in the near future. This is the most
-    fragile/breakable part of the process.
+    We are basically hoping this organization is unlikely to  to change their complaint
+    form on a regular basis, as we cannot guarantee that they will communicate such
+    changes to us. This is the most fragile/breakable part of the process.
 
     :param form: WTForm
     :return: CalEPA confirmation number
+    ToDo: Tests & error handling
     """
     if CONFIG.TESTING:
         return "#COMP-TEST1"
 
-    #ToDo: This is currently not working at step 3
+    # ToDo: This is currently not working at step 3
     else:
         local_form = form
         url = CONFIG.EPA_START_URL
@@ -108,6 +109,7 @@ def _send_to_epa(form):
         form_data["ComplaintContact:JCMC:AnonymousForm:ReferringName"] = ""
         form_data["ComplaintContact:JCMC:AnonymousForm:referalEmail"] = ""
 
+        # Fixme: Posting the below inputs to EPA_URL_3 isn't working. Figure out what's wrong/missing
         if local_form.anonymous.data:
             form_data["ComplaintContact:JCMC:AnonymousForm:anonH"] = "true"
             form_data["ComplaintContact:JCMC:AnonymousForm:FirstName"] = ""
@@ -120,7 +122,6 @@ def _send_to_epa(form):
             form_data["ComplaintContact:JCMC:AnonymousForm:PersonMobilePhone"] = ""
             form_data["ComplaintContact:JCMC:AnonymousForm:email"] = ""
             form_data["ComplaintContact:JCMC:AnonymousForm:confirmEmail"] = ""
-
 
         else:
             form_data["ComplaintContact:JCMC:AnonymousForm:anonH"] = "false"
@@ -148,7 +149,7 @@ def _send_to_epa(form):
             form_data["ComplaintContact:JCMC:AnonymousForm:email"] = local_form.email.data
             form_data["ComplaintContact:JCMC:AnonymousForm:confirmEmail"] = local_form.confirm_email.data
 
-        form_data["ComplaintContact:JCMC:AnonymousForm:emailOptOut"] = "on" # This is the opposite of what you think it is
+        form_data["ComplaintContact:JCMC:AnonymousForm:emailOptOut"] = "on"  # This is the opposite of what you think it is
         form_data["ComplaintContact:JCMC:AnonymousForm:j_id88"] = "ComplaintContact:JCMC:AnonymousForm:j_id88"
 
         # Final post to get complaint number
@@ -156,7 +157,7 @@ def _send_to_epa(form):
         response = requests.post(url, form_data)
         tree = html.fromstring(response.content)
 
-        complaint_number = tree.get_element_by_id("complaintNumber")  #????
+        complaint_number = tree.get_element_by_id("complaintNumber")  # ????
         complaint_number = tree.xpath("//span[@id='complaintNumber']/text()")[0]
         return complaint_number
 
@@ -231,7 +232,6 @@ def process_form(form):
     """
     Send data to EPA, Google Sheets, and local database
     :param form: WTForm
-    :param model: SQLAlchemy Model
     :return: EPA Confirmation Number
     """
     confirmation_no = _send_to_epa(form)
@@ -241,12 +241,12 @@ def process_form(form):
 
 
 @site.route("/", methods=["GET", "POST"])
-def home():
+@site.route("/<conf_no>", methods=["GET", "POST"])
+def home(conf_no=None):
     form = ComplaintForm()
     if form.validate_on_submit():
-        # return redirect(url_for("site.home"))
         conf_no = process_form(form)
-        return f"{conf_no}\n{form.data}"
+        return redirect(url_for("site.home", conf_no=conf_no))
     elif form.is_submitted():
         errors = []
         for field in form:
@@ -257,6 +257,7 @@ def home():
     return render_template(
         "site/main.html",
         form=form,
+        epa_confirmation_no=conf_no,
         places_api_key=CONFIG.PLACES_API_KEY,
         recaptcha_public_key=CONFIG.RECAPTCHA_PUBLIC_KEY,
     )

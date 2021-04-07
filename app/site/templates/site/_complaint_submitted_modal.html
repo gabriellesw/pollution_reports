@@ -1,0 +1,34 @@
+<div class="modal fade" id="complaint-submitted-modal" tabindex="-1" role="dialog" aria-labelledby="complaint-submitted-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-color-white-transparent">
+      <div class="modal-header bg-color-white-transparent pb-0">
+        <h5 class="modal-title header-font text-dark font-size-medium" id="complaint-submitted-modal-label">Thank You</h5>
+      </div>
+      <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
+          <p>
+              Your pollution report has been submitted to the California EPA and to Communities for
+              a Better Environment. Your CalEPA Confirmation Number is:
+          </p>
+
+          <h5 class="font-white header-font font-size-large text-uppercase text-center bg-color-accent-dark p-3">
+              {{ epa_confirmation_no }}
+          </h5>
+
+          <p>
+              Please save this number for future reference. If you included an email address, the number
+              will also be emailed to you.
+          </p>
+          <hr>
+      </div>
+      <div class="modal-footer bg-color-white-transparent pt-0">
+          <a id="ok-report-submitted" class="btn btn-dark btn-block header-font font-size-medium" href="/">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $("#complaint-submitted-modal").modal();
+</script>
+
+<a id="ok-report-submitted-dismissed" class="sr-only" href="/">Refresh Page</a>
