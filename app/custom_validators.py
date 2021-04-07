@@ -5,6 +5,7 @@ from wtforms.validators import StopValidation, ValidationError, Email, InputRequ
 
 from abc import ABC, abstractmethod
 
+# ToDo: switch to client-side validation if feasible
 
 class EmailNA(Email):
 
