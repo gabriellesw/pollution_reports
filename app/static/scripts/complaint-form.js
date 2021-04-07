@@ -144,6 +144,12 @@ $(document).ready(function () {
         submit.trigger("click");
     });
 
+    $(".is-invalid").each(function () {
+        $(this).focus(function () {
+            $(this).removeClass("is-invalid");
+        });
+    });
+
     return false;
 
 });

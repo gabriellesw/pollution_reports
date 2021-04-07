@@ -247,13 +247,6 @@ def home(conf_no=None):
     if form.validate_on_submit():
         conf_no = process_form(form)
         return redirect(url_for("site.home", conf_no=conf_no))
-    elif form.is_submitted():
-        errors = []
-        for field in form:
-            for error in form[field.name].errors:
-                errors.append(f"{field.name}: {error}")
-        errors = "\n".join(errors)
-        return f"{errors}\n\n\n{form.data}"
     return render_template(
         "site/main.html",
         form=form,

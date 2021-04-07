@@ -78,12 +78,21 @@
                     <h3 class="header-font font-size-medium text-dark">Where was it?</h3>
                     <div class="form-group">
 
+                        {% set classes="form-control body-font font-size-x-small" %}
+                        {% set message="" %}
+
+                        {% if form.polluter_search.errors %}
+                            {% set classes = classes + " is-invalid" %}
+                            {% set message = form.polluter_search.errors[0] %}
+                        {% endif %}
+
                         {{ form.polluter_search(
                             type="search",
                             onFocus="geolocate(true)",
                             autocomplete="fdsifaoenjeiop",
                             placeholder="Search for polluter...",
-                            class="form-control body-font font-size-x-small") }}
+                            class=classes) }}
+                        <div class="invalid-feedback body-font font-size-xx-small py-0 px-2">{{ message }}</div>
                         <label for="polluter_search" class="sr-only">Search for polluter...</label>
 
                         <figure role="figure">
@@ -96,7 +105,14 @@
                 <div class="col-md-6">
                     <h3 class="header-font font-size-medium text-dark">When did it happen?</h3>
                     <div class="form-group pb-2">
-                        {{ form.date(id="date1", class="date form-control body-font font-size-x-small", placeholder="m/d/yyyy",title="click the button to choose a different date") }}
+                        {% set classes = "date form-control body-font font-size-x-small" %}
+                        {% set message = "" %}
+                        {% if form.date.errors %}
+                            {% set classes = classes + " is-invalid" %}
+                            {% set message = form.date.errors[0] %}
+                        {% endif %}
+                        {{ form.date(id="date1", class=classes, placeholder="m/d/yyyy",title="click the button to choose a different date") }}
+                        <div class="invalid-feedback body-font font-size-xx-small py-0 px-2">{{ message }}</div>
                         <label for="date1" class="sr-only">Date in m/d/yyyy format...click the button to choose a different date</label>
 
                         <div class="container-fluid mt-2 p-0">
@@ -142,11 +158,19 @@
                             </div>
                         </div>
                         <div class="container-fluid mt-2 p-0">
+
+                            {% set classes = "form-control body-font font-size-x-small text-dark" %}
+                            {% set message = "" %}
+                            {% if form.description.errors %}
+                                {% set classes = classes + " is-invalid" %}
+                                {% set message = form.description.errors[0] %}
+                            {% endif %}
                             {{ form.description(
                                     id="pollution-description",
-                                    class="form-control body-font font-size-x-small text-dark",
+                                    class=classes,
                                     rows="12",
                                     placeholder="Describe the pollution you've witnessed in your own words.") }}
+                            <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                             <label for="pollution-description" class="sr-only">Describe the pollution you've witnessed in your own words. </label>
                         </div>
                     </div>
@@ -178,34 +202,56 @@
                     <div class="col-md-6">
                         <div class="row pt-2">
                             <div class="col">
+                                {% set classes = "form-control body-font font-black font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.email.errors %}
+                                    {% set message = form.email.errors[0] %}
+                                    {% set classes = classes + " is-invalid" %}
+                                {% endif %}
                                 {{ form.email(
                                     id="email",
-                                    class="form-control body-font font-black font-size-x-small",
+                                    class=classes,
                                     placeholder="Email",
                                     type="email"
                                 ) }}
+                                <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                                 <label for="email" class="sr-only">Email</label>
                             </div>
                         </div>
                         <div class="row pt-2">
                             <div class="col">
+                                {% set classes = "form-control body-font font-black font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.confirm_email.errors %}
+                                    {% set message = form.confirm_email.errors[0] %}
+                                    {% set classes = classes + " is-invalid" %}
+                                {% endif %}
                                 {{ form.confirm_email(
                                     id="confirm-email",
-                                    class="form-control body-font font-black font-size-x-small",
+                                    class=classes,
                                     type="email",
                                     placeholder="Confirm Email"
                                 ) }}
+                                <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                                 <label for="confirm-email" class="sr-only">Confirm Email</label>
                             </div>
                         </div>
                         <div class="row pt-2">
                             <div class="col">
                                 <div class="input-group">
+                                {% set classes = "form-control body-font font-black font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.phone.errors %}
+                                    {% set message = form.phone.errors[0] %}
+                                    {% set classes = classes + " is-invalid" %}
+                                {% endif %}
+
                                     {{ form.phone(
                                         id="phone",
-                                        class="form-control font-black body-font font-size-x-small",
+                                        class=classes,
                                         placeholder="Phone"
                                     ) }}
+                                    <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                                     <label for="phone" class="sr-only">Phone</label>
                                     <div class="input-group-append">
                                         <div class="btn-group-toggle m-0 p-0" data-toggle="buttons">
@@ -227,26 +273,49 @@
                     <div class="col-md-6">
                         <div class="row pt-2">
                             <div class="col">
+                                {% set classes = "form-control body-font font-black font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.first_name.errors %}
+                                    {% set message = form.first_name.errors[0] %}
+                                    {% set classes = classes + " is-invalid" %}
+                                {% endif %}
                                 {{ form.first_name(
                                     id="first-name",
-                                    class="form-control body-font font-black font-size-x-small",
+                                    class=classes,
                                     placeholder="First Name"
                                 ) }}
+                                <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                                 <label for="first-name" class="sr-only">First Name</label>
                             </div>
                         </div>
                         <div class="row pt-2">
                             <div class="col">
+                                {% set classes = "form-control body-font font-black font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.last_name.errors %}
+                                    {% set message = form.last_name.errors[0] %}
+                                    {% set classes = classes + " is-invalid" %}
+                                {% endif %}
+
                                 {{ form.last_name(
                                     id="last-name",
-                                    class="form-control body-font font-black font-size-x-small",
+                                    class=classes,
                                     placeholder="Last Name"
                                 ) }}
+                               <div class="invalid-feedback font-size-xx-small body-font py-0 px-2">{{ message }}</div>
                                 <label for="last-name" class="sr-only">Last Name</label>
                             </div>
                         </div>
                         <div class="row pt-2">
                             <div class="col">
+
+                                {% set classes = "form-control body-font font-size-x-small" %}
+                                {% set message = "" %}
+                                {% if form.reporter_search.errors %}
+                                    {% set classes = classes + " is-invalid" %}
+                                    {% set message = form.reporter_search.errors[0] %}
+                                {% endif %}
+
                                 {{ form.reporter_search(
                                     type="search",
                                     onFocus="geolocate()",
@@ -254,6 +323,7 @@
                                     placeholder="Search for your address or Intersection...",
                                     class="form-control body-font font-size-x-small"
                                 ) }}
+                                <div class="invalid-feedback body-font font-size-xx-small py-0 px-2">{{ message }}</div>
                                 <label for="reporter_search" class="sr-only">Search for your address or Intersection...</label>
                             </div>
                         </div>
@@ -407,8 +477,8 @@
 
     </div>
 
-    <footer id="footer" class="container-fluid bg-color-white-transparent">
-        test
+    <footer id="footer" class="container-fluid bg-color-white-transparent p-1">
+        <h6 class="font-black text-center header-font font-size-x-small"><i class="fa fa-creative-commons" aria-hidden="true"></i>{{ moment().format('YYYY') }}, Communities for a Better Environment</h6>
     </footer>
 </div>
 
