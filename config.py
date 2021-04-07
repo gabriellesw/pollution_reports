@@ -3,10 +3,17 @@ from yaml_pyconf import FlaskConfig
 
 
 class Config(FlaskConfig):
-    def __new__(cls, *args, **kwargs):
+    def __new__(
+            cls,
+            db_path=pathlib.Path(__file__).parent,
+            *args, **kwargs
+    ):
         kwargs["yaml_path"] = pathlib.Path(__file__).parent.joinpath("config.yaml")
         kwargs["dotenv_path"] = pathlib.Path(__file__).parent.joinpath(".env")
-        return super(Config, cls).__new__(cls, *args, **kwargs)
+        new_config = super(Config, cls).__new__(cls, *args, **kwargs)
+        if db_path is not None:
+            new_config.__setattr__("SQLITE_PROJECT_DIRECTORY", db_path)
+        return new_config
 
     @property
     def RECAPTCHA_PUBLIC_KEY(self):
