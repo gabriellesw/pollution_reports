@@ -27,6 +27,7 @@ class ComplaintForm(FlaskForm):
     polluter_street_number = HiddenField()
     polluter_locality = HiddenField()
     polluter_route = HiddenField()
+    polluter_address = HiddenField()
     polluter_administrative_area_level_1 = HiddenField()
     polluter_administrative_area_level_2 = HiddenField()
     polluter_postal_code = HiddenField()
@@ -37,6 +38,7 @@ class ComplaintForm(FlaskForm):
     street_number = HiddenField()
     locality = HiddenField()
     route = HiddenField()
+    address = HiddenField()
     administrative_area_level_1 = HiddenField()
     administrative_area_level_2 = HiddenField()
     postal_code = HiddenField()
@@ -45,7 +47,8 @@ class ComplaintForm(FlaskForm):
     date = DateTimeField(format=CONFIG.date_format, validators=[InputRequired()])
     hour = SelectField(choices=range(1, 13))
     minute = SelectField(choices=list(zip(range(60), map(format_minute, range(60)))))
-    ampm = SelectField(choices=[("am", "AM"), ("pm", "PM")])
+    ampm = SelectField(choices=["AM", "PM"])
+    full_date = HiddenField()
 
     # Button Checkboxes handled by complaint_form.js
     ongoing = BooleanField()

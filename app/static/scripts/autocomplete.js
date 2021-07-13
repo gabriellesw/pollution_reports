@@ -65,7 +65,13 @@
       }
     }
 
+    let fullAddress = document.getElementById(prefix + "address");
+    let streetNumber = document.getElementById(prefix + "street_number");
+    let route = document.getElementById(prefix + "route");
+    fullAddress.value = streetNumber.value + " " + route.value;
+
     if(polluter === true) {
+
       map.setCenter(place.geometry.location);
       map.setZoom(15);
 

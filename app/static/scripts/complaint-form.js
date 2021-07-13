@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let currentDate = moment();
-    let dateString = currentDate.format("M/D/Y").toString();
+    let dateString = currentDate.format("MM/DD/Y").toString();
     let dateField = $("#date1");
 
     // Set date field to today's date
@@ -10,15 +10,26 @@ $(document).ready(function () {
     dateField.datepicker({
         weekDayFormat: "narrow",
         markup: "bootstrap4",
-        inputFormat: "M/d/y",
+        inputFormat: "MM/dd/y",
         max: dateString,
     })
 
     // Set values in timepicker to current time
-    $("#hours").val(currentDate.format("h"));
-    $("#minutes").val(currentDate.format("m"));
-    $("#ampm").val(currentDate.format("a"));
+    let hours = $("#hours");
+    let minutes = $("#minutes");
+    let ampm = $("#ampm");
+    hours.val(currentDate.format("h"));
+    minutes.val(currentDate.format("m"));
+    ampm.val(currentDate.format("A"));
 
+    // Auto-set hidden field with full datetime for 3rd-party form
+    let fullDate = $("#full_date")
+    fullDate.val(dateField.val()+" "+hours.val()+":"+minutes.val()+" "+ampm.val());
+
+    // Update this hidden field on subsequent manual changes to time
+    hours.add(minutes).add(ampm).change(function () {
+        fullDate.val(dateField.val()+" "+hours.val()+":"+minutes.val()+" "+ampm.val());
+    });
 
     // Make checkbox buttons toggle-able with spacebar
     let refineryCheckbox = $("#refinery");
@@ -53,6 +64,9 @@ $(document).ready(function () {
             complaintCheckDescription.text("Still Ongoing");
         }
     })
+
+    let phoneNumber = $("#phone");
+    phoneNumber.inputmask("(999) 999-9999")
 
     let landlineCheckbox = $("#landline-button");
     landlineCheckbox.keypress(function (key) {

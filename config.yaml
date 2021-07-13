@@ -31,10 +31,6 @@ defaults: &defaults
         - "DEV_RECAPTCHA_SECRET_KEY"
         - "PROD_RECAPTCHA_PUBLIC_KEY"
         - "PROD_RECAPTCHA_SECRET_KEY"
-        - "EPA_START_URL"
-        - "EPA_URL_1"
-        - "EPA_URL_2"
-        - "EPA_URL_3"
         - "GSHEET_TEST"
         - "GSHEET_PROD"
 
@@ -73,6 +69,90 @@ defaults: &defaults
         - "polluter_administrative_area_level_2"
         - "polluter_postal_code"
         - "polluter_search"
+
+    # 3rd-party form details
+    remote_form_urls:
+        start_complaint: "https://calepacomplaints.secure.force.com/complaints/"
+        choose_air: "https://calepacomplaints.secure.force.com/complaints/Complaint"
+        complaint_detail: "https://calepacomplaints.secure.force.com/complaints/complaintdetails"
+        complaint_contact: "https://calepacomplaints.secure.force.com/complaints/complaintcontact"
+
+    remote_form_hardcoded:
+        start_complaint:
+            Complaint:JCMC:theForm: "Complaint:JCMC:theForm"
+            Complaint:JCMC:theForm:j_id15: "on"  # ToDo: support "off" for Spanish
+            Complaint:JCMC:theForm:j_id47: "Complaint:JCMC:theForm:j_id47"
+        choose_air:
+            details:JCMC:detailsForm: "details:JCMC:detailsForm"
+            details:JCMC:detailsForm:rAttach: ""
+            details:JCMC:detailsForm:geocoded: True # Always true
+            details:JCMC:detailsForm:locationDescriptionTextArea: ""
+            details:JCMC:detailsForm:responsiblePartyNameInput: ""
+            details:JCMC:detailsForm:airVehicle: "Stationary Source"
+            details:JCMC:detailsForm:occuranceTimeFrame: "Exact Date"
+            details:JCMC:detailsForm:j_id107: "details:JCMC:detailsForm:j_id107"
+            details:JCMC:detailsForm:previouslySubmittedTextArea: "Communities for a Better Environment"
+        complaint_detail:
+            ComplaintContact:JCMC:AnonymousForm: "ComplaintContact:JCMC:AnonymousForm" #hc
+            ComplaintContact:JCMC:AnonymousForm:refH: False # Always false, as this is for gov't agencies
+            ComplaintContact:JCMC:AnonymousForm:ReferringAgency: ""
+            ComplaintContact:JCMC:AnonymousForm:ReferringName: ""
+            ComplaintContact:JCMC:AnonymousForm:referalEmail: ""
+            ComplaintContact:JCMC:AnonymousForm:j_id88: "ComplaintContact:JCMC:AnonymousForm:j_id88"
+
+    remote_form_by_id:
+        start_complaint:
+            Complaint:JCMC:theForm:j_id20: "Complaint:JCMC:theForm:j_id20"
+            pollution: "air"
+            com.salesforce.visualforce.ViewState: "com.salesforce.visualforce.ViewState"
+            com.salesforce.visualforce.ViewStateVersion: "com.salesforce.visualforce.ViewStateVersion"
+            com.salesforce.visualforce.ViewStateMAC: "com.salesforce.visualforce.ViewStateMAC"
+        choose_air:
+            com.salesforce.visualforce.ViewState: "com.salesforce.visualforce.ViewState"
+            com.salesforce.visualforce.ViewStateVersion: "com.salesforce.visualforce.ViewStateVersion"
+            com.salesforce.visualforce.ViewStateMAC: "com.salesforce.visualforce.ViewStateMAC"
+        complaint_detail:
+            com.salesforce.visualforce.ViewState: "com.salesforce.visualforce.ViewState"
+            com.salesforce.visualforce.ViewStateVersion: "com.salesforce.visualforce.ViewStateVersion"
+            com.salesforce.visualforce.ViewStateMAC: "com.salesforce.visualforce.ViewStateMAC"
+
+    remote_form_mapping:
+        choose_air:
+            refinery: "details:JCMC:detailsForm:j_id22"
+            description: "details:JCMC:detailsForm:descriptionTextArea"
+            polluter_search: "details:JCMC:detailsForm:searchBox"
+            polluter_address:
+                - "details:JCMC:detailsForm:address"
+                - "details:JCMC:detailsForm:rpStreet"
+            polluter_locality:
+                - "details:JCMC:detailsForm:city"
+                - "details:JCMC:detailsForm:rpCity"
+            polluter_administrative_area_level_1:
+                - "details:JCMC:detailsForm:state"
+                - "details:JCMC:detailsForm:rpState"
+            polluter_postal_code:
+                - "details:JCMC:detailsForm:zip"
+                - "details:JCMC:detailsForm:rpZip"
+            polluter_administrative_area_level_2: "details:JCMC:detailsForm:county"
+            polluter_lat: "details:JCMC:detailsForm:latitude"
+            polluter_lng: "details:JCMC:detailsForm:longitude"
+            polluter_name: "details:JCMC:detailsForm:responsiblePartyCompanyInput"
+            pollution_type: "details:JCMC:detailsForm:airsource"
+            full_date: "details:JCMC:detailsForm:dateOfOccurence"
+            ongoing: "details:JCMC:detailsForm:ongoingOccurance"
+        complaint_detail:
+            anonymous: "ComplaintContact:JCMC:AnonymousForm:anonH"
+            first_name: "ComplaintContact:JCMC:AnonymousForm:FirstName"
+            last_name: "ComplaintContact:JCMC:AnonymousForm:LastName"
+            address: "ComplaintContact:JCMC:AnonymousForm:PersonMailingStreet"
+            locality: "ComplaintContact:JCMC:AnonymousForm:PersonMailingCity"
+            administrative_area_level_1: "ComplaintContact:JCMC:AnonymousForm:PersonMailingState"
+            postal_code: "ComplaintContact:JCMC:AnonymousForm:PersonMailingPostalCode"
+            phone:
+                - "ComplaintContact:JCMC:AnonymousForm:PersonHomePhone"
+                - "ComplaintContact:JCMC:AnonymousForm:PersonMobilePhone"
+            email: "ComplaintContact:JCMC:AnonymousForm:email"
+            confirm_email: "ComplaintContact:JCMC:AnonymousForm:confirmEmail"
 
 development:
     # General app settings
