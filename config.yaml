@@ -32,6 +32,8 @@ defaults: &defaults
         - "GSHEET_PROD"
         - "SENDGRID_API_KEY"
         - "SENDGRID_FROM"
+        - "POST_RATE_LIMIT"
+        - "DEFAULT_RATE_LIMITS"
 
     GSHEET_COLS: # Order of columns for google sheet
         - "first_name"

@@ -15,6 +15,7 @@ def create_app():
     migrate.init_app(app, db)
     moment.init_app(app)
     csrf.init_app(app)
+    limiter.init_app(app)
 
     with app.app_context():
         app.register_blueprint(site)

@@ -5,6 +5,8 @@ import json
 
 from oauth2client.service_account import ServiceAccountCredentials
 
+from werkzeug.exceptions import TooManyRequests
+
 from flask import Blueprint, render_template, redirect, url_for, current_app, request
 
 from config import Config
@@ -12,6 +14,8 @@ from app.forms import ComplaintForm
 from app.models import Complaint, db
 from app.third_party_form import ThirdPartyReport
 from app.emails import send_complaint_confirmation
+from extensions import limiter
+
 site = Blueprint("site", __name__, template_folder="templates")
 
 CONFIG = Config()
@@ -116,6 +120,7 @@ def process_form(form):
 
 
 @site.route("/", methods=["GET", "POST"])
+@limiter.limit(limit_value=CONFIG.POST_RATE_LIMIT, methods=["POST"])
 def home():
     form = ComplaintForm()
     if form.validate_on_submit():
@@ -142,7 +147,12 @@ def favicon():
 @site.app_errorhandler(Exception)
 def any_error(error):
     """
-    Log the full stack trace privately and display a vague error page to user
+    Log the full stack trace privately and display a vague error message to user
     """
     current_app.logger.error(error, exc_info=True)
+    code = getattr(error, "code", 404)
+    if code == 429 and request.method == "GET":
+        # Do not redirect when rate limit exceeded on get requests.
+        # This will cause endless redirects
+        raise TooManyRequests()
     return redirect(url_for("site.home", error=404))
