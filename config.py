@@ -1,4 +1,5 @@
 import pathlib
+
 from yaml_pyconf import FlaskConfig
 
 

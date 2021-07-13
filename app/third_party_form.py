@@ -1,4 +1,5 @@
 from abc import ABC
+
 import requests
 from lxml import html
 

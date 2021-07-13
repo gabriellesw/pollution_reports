@@ -11,6 +11,7 @@ $(document).ready(function () {
         weekDayFormat: "narrow",
         markup: "bootstrap4",
         inputFormat: "MM/dd/y",
+        outputFormat: "MM/dd/y",
         max: dateString,
     })
 
@@ -92,9 +93,10 @@ $(document).ready(function () {
             $(this).trigger("click");
         }
     });
+    let confirmAnonModal = $("#confirm-anon-modal");
     anonCheckbox.click(function() {
         if($(this).prop("checked") === true) {
-            $("#confirm-anon-modal").modal();
+            confirmAnonModal.modal();
         }
     });
 
@@ -106,13 +108,14 @@ $(document).ready(function () {
     });
 
     let privacyPolicyOK = $("#privacy-policy-ok");
+    let ppRequired = $("#pp-required-modal");
     privacyPolicy.click(function() {
         if($(this).prop("checked") === true) {
             privacyPolicyOK.html('<i class="fas fa-check" aria-hidden="true"></i> I Accept the ');
         }
         else {
             privacyPolicyOK.text('I Accept the ');
-            $("#pp-required-modal").modal();
+            ppRequired.modal();
         }
     });
 
@@ -127,7 +130,9 @@ $(document).ready(function () {
     });
 
     // Make "Go Back" & "submit" buttons clickable w/spacebar & enter
-    let buttons = [$("#cancel-anonymous-report"), $("#submit-anonymous-report")];
+    let cancelAnonymousReport = $("#cancel-anonymous-report")
+    let submitAnonymousReport = $("#submit-anonymous-report")
+    let buttons = [cancelAnonymousReport, submitAnonymousReport];
     for(i = 0; i < 2; i++) {
          buttons[i].keypress(function (key) {
              if(key.which === 32 || key.which === 13) {
@@ -137,12 +142,10 @@ $(document).ready(function () {
     }
 
     // Dismissing modal triggers reset of "anonymous" button
-    let confirmAnonModal = $("#confirm-anon-modal");
     confirmAnonModal.on("hide.bs.modal", function() {
         anonCheckbox.trigger("click");
     });
 
-    let ppRequired = $("#pp-required-modal");
     ppRequired.on("hide.bs.modal", function() {
         privacyPolicy.trigger("click");
     });
@@ -157,15 +160,16 @@ $(document).ready(function () {
         $("#ok-report-failed-dismissed")[0].click();
     })
 
-    let submitAnon = $("#submit-anonymous-report");
+    // Submitting anonymously dismisses modal first to prevent unscrollable captcha
     let submit = $("#submit-report")
-    submitAnon.click(function () {
+    submitAnonymousReport.click(function () {
         confirmAnonModal.modal("hide");
         anonCheckbox.prop("checked", true);
-        $("#email, #confirm-email, #phone, #first-name, #last-name, #address, #lat, #lng, #street_number, #route, #locality, #administrative_area_level_1, #administrative_area_level_2, #postal_code").val("");
+        $("#email, #confirm-email, #first-name, #last-name, #address, #lat, #lng, #street_number, #route, #locality, #administrative_area_level_1, #administrative_area_level_2, #postal_code").add(phoneNumber).val("");
         submit.trigger("click");
     });
 
+    // Remove validation error feedback immediately when user goes to correct
     $(".is-invalid").each(function () {
         $(this).focus(function () {
             $(this).removeClass("is-invalid");

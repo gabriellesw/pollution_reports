@@ -1,5 +1,5 @@
 from app import create_app
-from app.models import *
+from app.models import db, Complaint
 
 app = create_app()
 

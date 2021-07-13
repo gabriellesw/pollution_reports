@@ -1,7 +1,6 @@
+from flask import render_template
 from sendgrid import SendGridAPIClient, SendGridException
 from sendgrid.helpers.mail import Mail, To
-
-from flask import render_template
 
 from config import Config
 

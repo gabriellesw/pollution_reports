@@ -1,19 +1,17 @@
-import gspread
-import pathlib
-import requests
 import json
+import pathlib
 
+import gspread
+import requests
+from flask import Blueprint, render_template, redirect, url_for, current_app, request
 from oauth2client.service_account import ServiceAccountCredentials
-
 from werkzeug.exceptions import TooManyRequests
 
-from flask import Blueprint, render_template, redirect, url_for, current_app, request
-
-from config import Config
+from app.emails import send_complaint_confirmation
 from app.forms import ComplaintForm
 from app.models import Complaint, db
 from app.third_party_form import ThirdPartyReport
-from app.emails import send_complaint_confirmation
+from config import Config
 from extensions import limiter
 
 site = Blueprint("site", __name__, template_folder="templates")

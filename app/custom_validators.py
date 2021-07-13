@@ -1,9 +1,9 @@
+from abc import ABC, abstractmethod
+
 import phonenumbers
 import zipcodes
+from wtforms.validators import StopValidation, ValidationError, Email, InputRequired, Length
 
-from wtforms.validators import StopValidation, ValidationError, Email, InputRequired, Length, Optional
-
-from abc import ABC, abstractmethod
 
 # ToDo: switch to client-side validation if feasible
 

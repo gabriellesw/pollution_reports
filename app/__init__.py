@@ -1,10 +1,8 @@
-from flask import Flask, url_for
+from flask import Flask
+
 from config import Config
-
+from extensions import db, migrate, moment, csrf, limiter
 from .site.routes import site
-from .models import *
-
-from extensions import *
 
 
 def create_app():

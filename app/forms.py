@@ -2,9 +2,10 @@ from flask_wtf import FlaskForm
 from wtforms import (
     StringField, BooleanField, TextAreaField, SelectField, DateTimeField, HiddenField
 )
+from wtforms.validators import Optional
 
-from app.custom_validators import *
-
+from app.custom_validators import (InputRequired, LengthNA, InputRequiredNA, EmailNA, ConfirmEmail, Phone,
+                                   Length)
 from config import Config
 
 CONFIG = Config()
