@@ -137,8 +137,8 @@ $(document).ready(function () {
     }
 
     // Dismissing modal triggers reset of "anonymous" button
-    let modal = $("#confirm-anon-modal");
-    modal.on("hide.bs.modal", function() {
+    let confirmAnonModal = $("#confirm-anon-modal");
+    confirmAnonModal.on("hide.bs.modal", function() {
         anonCheckbox.trigger("click");
     });
 
@@ -160,6 +160,8 @@ $(document).ready(function () {
     let submitAnon = $("#submit-anonymous-report");
     let submit = $("#submit-report")
     submitAnon.click(function () {
+        confirmAnonModal.modal("hide");
+        anonCheckbox.prop("checked", true);
         $("#email, #confirm-email, #phone, #first-name, #last-name, #address, #lat, #lng, #street_number, #route, #locality, #administrative_area_level_1, #administrative_area_level_2, #postal_code").val("");
         submit.trigger("click");
     });

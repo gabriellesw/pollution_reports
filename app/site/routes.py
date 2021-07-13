@@ -1,5 +1,7 @@
 import gspread
 import pathlib
+import requests
+import json
 
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -13,6 +15,14 @@ from app.emails import send_complaint_confirmation
 site = Blueprint("site", __name__, template_folder="templates")
 
 CONFIG = Config()
+
+
+def check_captcha(response):
+    secret = CONFIG.RECAPTCHA_SECRET_KEY
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    api_response = requests.post(url, {"secret": secret, "response": response})
+    if json.loads(api_response.content).get("success") != True:
+        raise ConnectionRefusedError(str(api_response.content) + "\n" + response)
 
 
 def _save_local(form, epa_conf):
@@ -109,6 +119,7 @@ def process_form(form):
 def home():
     form = ComplaintForm()
     if form.validate_on_submit():
+        check_captcha(request.form["g-recaptcha-response"])
         conf_no = process_form(form)
         if not form.anonymous.data:
             send_complaint_confirmation(form, conf_no)
