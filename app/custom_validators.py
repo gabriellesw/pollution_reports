@@ -7,22 +7,27 @@ from abc import ABC, abstractmethod
 
 # ToDo: switch to client-side validation if feasible
 
-class EmailNA(Email):
 
+class EmailNA(Email):
     def __call__(self, form, field):
         try:
             super(EmailNA, self).__call__(form, field)
         except (StopValidation, ValidationError):
-            if not form.anonymous:
+            if not form.anonymous.data:
                 raise
 
 
 class InputRequiredNA(InputRequired):
+    def __init__(
+            self, message="If you do not wish to include your contact info, please submit anonymously",
+            *args, **kwargs):
+        super(InputRequiredNA, self).__init__(message=message, *args, **kwargs)
+
     def __call__(self, form, field):
         try:
             super(InputRequiredNA, self).__call__(form, field)
         except (StopValidation, ValidationError):
-            if not form.anonymous:
+            if not form.anonymous.data:
                 raise
 
 
@@ -31,7 +36,7 @@ class LengthNA(Length):
         try:
             super(LengthNA, self).__call__(form, field)
         except (StopValidation, ValidationError):
-            if not form.anonymous:
+            if not form.anonymous.data:
                 raise
 
 
@@ -65,7 +70,7 @@ class ConfirmEmail(CustomValidator):
 
     def is_validated(self, form, confirm_email):
         email = form.__getattribute__(self.email_field_name)
-        return (email.data == confirm_email.data) or form.anonymous
+        return (email.data == confirm_email.data) or form.anonymous.data
 
 
 class Zip(CustomValidator):
@@ -74,7 +79,7 @@ class Zip(CustomValidator):
         return "Invalid ZIP Code"
 
     def is_validated(self, form, zipcode):
-        return zipcodes.is_real(zipcode.data) or form.anonymous
+        return zipcodes.is_real(zipcode.data) or form.anonymous.data
 
 
 class Phone(CustomValidator):
@@ -92,6 +97,6 @@ class Phone(CustomValidator):
             if not phonenumbers.is_valid_number_for_region(parsed, self.region_code):
                 raise ValueError()
         except(ValueError, phonenumbers.phonenumberutil.NumberParseException):
-            if not form.anonymous:
+            if not form.anonymous.data:
                 return False
         return True

@@ -155,6 +155,7 @@ $(document).ready(function () {
     let submitAnon = $("#submit-anonymous-report");
     let submit = $("#submit-report")
     submitAnon.click(function () {
+        $("#email, #confirm-email, #phone, #first-name, #last-name, #address, #lat, #lng, #street_number, #route, #locality, #administrative_area_level_1, #administrative_area_level_2, #postal_code").val("");
         submit.trigger("click");
     });
 

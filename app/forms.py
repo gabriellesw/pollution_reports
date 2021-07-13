@@ -18,7 +18,7 @@ def format_minute(minute):
 
 class ComplaintForm(FlaskForm):
     # Google Maps input fields
-    polluter_search = StringField(validators=[InputRequired()])
+    polluter_search = StringField(validators=[InputRequired("You must include a pollution source")])
     reporter_search = StringField(validators=[LengthNA(max=CONFIG.varchar_max), Optional()])
 
     # Hidden fields populated by Google Maps via autocomplete.js
@@ -44,7 +44,7 @@ class ComplaintForm(FlaskForm):
     postal_code = HiddenField()
 
     # Pre-populated by complaint_form.js
-    date = DateTimeField(format=CONFIG.date_format, validators=[InputRequired()])
+    date = DateTimeField(format=CONFIG.date_format, validators=[InputRequired("You must include a date")])
     hour = SelectField(choices=range(1, 13))
     minute = SelectField(choices=list(zip(range(60), map(format_minute, range(60)))))
     ampm = SelectField(choices=["AM", "PM"])
@@ -59,7 +59,7 @@ class ComplaintForm(FlaskForm):
 
     # Fields that aren't set by JavaScript
     pollution_type = SelectField(choices=CONFIG.pollution_types)
-    description = TextAreaField(validators=[Length(max=CONFIG.varchar_max)])
+    description = TextAreaField(validators=[Length(max=CONFIG.text_max)])
     email = StringField(validators=[InputRequiredNA(), EmailNA()])
     confirm_email = StringField(validators=[InputRequiredNA(), ConfirmEmail()])
     phone = StringField(validators=[Optional(), Phone()])
