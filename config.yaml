@@ -33,6 +33,8 @@ defaults: &defaults
         - "PROD_RECAPTCHA_SECRET_KEY"
         - "GSHEET_TEST"
         - "GSHEET_PROD"
+        - "SENDGRID_API_KEY"
+        - "SENDGRID_FROM"
 
     GSHEET_COLS: # Order of columns for google sheet
         - "first_name"

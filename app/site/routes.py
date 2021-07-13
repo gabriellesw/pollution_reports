@@ -1,14 +1,14 @@
-import requests
 import gspread
 import pathlib
 
 from oauth2client.service_account import ServiceAccountCredentials
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for
 from config import Config
-from app.forms import ComplaintForm, format_minute
+from app.forms import ComplaintForm
 from app.models import Complaint, db
 from app.third_party_form import ThirdPartyReport
+from app.emails import send_complaint_confirmation
 site = Blueprint("site", __name__, template_folder="templates")
 
 CONFIG = Config()
@@ -54,6 +54,7 @@ def _send_to_third_party(form):
 
 def _send_to_sheets(form, model):
     """
+    # ToDo: move this to a new home
     Send detailed, combined report data to Google sheet
     :param form: WTForm
     :param model: db.Model
@@ -109,6 +110,8 @@ def home(conf_no=None):
     form = ComplaintForm()
     if form.validate_on_submit():
         conf_no = process_form(form)
+        if not form.anonymous.data:
+            send_complaint_confirmation(form, conf_no)
         return redirect(url_for("site.home", conf_no=conf_no))
     return render_template(
         "site/main.html",

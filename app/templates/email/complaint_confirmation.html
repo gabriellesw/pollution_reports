@@ -1,0 +1,28 @@
+{% if form.first_name.data %}
+    <p>Dear {{ form.first_name.data + ' ' + form.last_name.data}},</p>
+{% else %}
+    <p>Dear {{ form.email.data }},</p>
+{% endif %}
+
+<p>Thank you for submitting an air pollution complaint to Pollution Reports.
+We have sent your complaint to the California EPA. If you are not contacted
+within the next few days by your local air quality agency, please reply
+to this email and let us know. The goal of this reporting tool is to hold
+regulators accountable to the public by creating a secondary record of
+complaints to these agencies. We thank you for helping us by using this tool.</p>
+
+<p>The details of your complaint and your complaint confirmation number are below:</p>
+
+<table>
+    <tr><td><b>Polluter</b></td><td>{{
+            form.polluter_name.data + ', ' +
+            form.polluter_address.data + ', ' +
+            form.polluter_locality.data + ', ' +
+            form.polluter_administrative_area_level_1.data}}</td></tr>
+    <tr><td><b>Date</b></td><td>{{ form.full_date.data }}</td></tr>
+    <tr><td><b>Type & Description</b></td><td>{{ form.pollution_type.data + ': ' + form.description.data }}</td></tr>
+    <tr><td><b>Confirmation Number</b></td><td>{{ conf_no }}</td></tr>
+</table>
+
+<p>Sincerely,</p>
+<p><a href="https://pollutionreports.org">PollutionReports.org</a></p>
