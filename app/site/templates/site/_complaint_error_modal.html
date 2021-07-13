@@ -1,0 +1,35 @@
+<div class="modal fade" id="complaint-error-modal" tabindex="-1" role="dialog" aria-labelledby="complaint-error-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-color-white-transparent">
+      <div class="modal-header bg-color-white-transparent pb-0">
+        <h5 class="modal-title header-font text-dark font-size-medium" id="complaint-error-modal-label">Sorry</h5>
+      </div>
+      <div class="modal-body bg-color-white-transparent body-font text-dark font-size-x-small pb-0">
+          <p>
+              An error has occurred and we were unable to submit your complaint. Although
+              we check error logs to look for problems when we can, you can let us know
+              about this issue and help us fix it quicker by emailing us at
+              {{ macros.bot_unreadable_email_link() }} This reporting tool is currently
+              in beta, so letting us know if you have any issues is very valuable right now.
+          </p>
+          <p>
+              The issue may also be transitory, so please try again later. You can also
+              submit your complaint directly via the <a href="https://calepacomplaints.secure.force.com/complaints/complaintcontact" target="_blank" rel="noopener noreferrer">
+              CalEPA complaint system</a>. If you do this, please also let us know via
+              email.
+          </p>
+
+          <hr>
+      </div>
+      <div class="modal-footer bg-color-white-transparent pt-0">
+          <a id="ok-report-failed" class="btn btn-dark btn-block header-font font-size-medium" href="/">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $("#complaint-error-modal").modal();
+</script>
+
+<a id="ok-report-failed-dismissed" class="sr-only" href="/">Refresh Page</a>

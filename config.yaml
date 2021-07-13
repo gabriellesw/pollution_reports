@@ -19,9 +19,6 @@ defaults: &defaults
         - "Painting"
         - "Other Stationary Sources"
 
-    # Default inputs for EPA form
-    report_recipients: "Communities for a Better Environment, via pollutionreports.org"
-
     # Values specified in .env file or explicitly in env
     LOAD_FROM_ENV:
         - "SECRET_KEY"
@@ -93,7 +90,7 @@ defaults: &defaults
             details:JCMC:detailsForm:airVehicle: "Stationary Source"
             details:JCMC:detailsForm:occuranceTimeFrame: "Exact Date"
             details:JCMC:detailsForm:j_id107: "details:JCMC:detailsForm:j_id107"
-            details:JCMC:detailsForm:previouslySubmittedTextArea: "Communities for a Better Environment"
+            details:JCMC:detailsForm:previouslySubmittedTextArea: "Communities for a Better Environment, via pollutionreports.org"
         complaint_detail:
             ComplaintContact:JCMC:AnonymousForm: "ComplaintContact:JCMC:AnonymousForm" #hc
             ComplaintContact:JCMC:AnonymousForm:refH: False # Always false, as this is for gov't agencies

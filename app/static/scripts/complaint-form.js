@@ -152,6 +152,11 @@ $(document).ready(function () {
         $("#ok-report-submitted-dismissed")[0].click();
     })
 
+    let submitFailed = $("#complaint-error-modal");
+    submitFailed.on("hide.bs.modal", function () {
+        $("#ok-report-failed-dismissed")[0].click();
+    })
+
     let submitAnon = $("#submit-anonymous-report");
     let submit = $("#submit-report")
     submitAnon.click(function () {

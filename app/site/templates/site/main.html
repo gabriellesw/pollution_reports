@@ -1,3 +1,5 @@
+{% import "site/macros.html" as macros %}
+
 <!DOCTYPE html>
 {#TODO: reduce px on mobile for all columns#}
 <html lang="en">
@@ -47,8 +49,12 @@
 {% include "site/_privacy_policy_modal.html" %}
 {% include "site/_pp_required_modal.html" %}
 {% if epa_confirmation_no %}
-    {{ epa_confirmation_no }}
+{#    {{ epa_confirmation_no }}#}
     {% include "site/_complaint_submitted_modal.html" %}
+{% endif %}
+
+{% if error %}
+    {% include "site/_complaint_error_modal.html" %}
 {% endif %}
 
 <header class="container-fluid bg-color-black font-size-medium header-font py-2 sticky-top">
@@ -406,11 +412,14 @@
                 </p>
 
                 <p>
-                    This app was created by Gabrielle Sloane Law, in collaboration with
+                    This reporting tool was created by Gabrielle Sloane Law, in collaboration with
                     <a href="https://cbecal.org" target="_blank" rel="noopener noreferrer">
                         Communities for a Better Environment</a>. The full site code can be found on
                     <a href="https://github.com/gabriellesw/pollution_reports" target="_blank" rel="noopener noreferrer">
-                        Github</a>, and your code feedback and collaboration is welcome.
+                        Github</a>, and your code feedback and collaboration is welcome. You are also
+                    welcome to reuse any relevant code for your own local environmental justice projects.
+                </p>
+                <p>
                     We hope to add interactive maps soon, so you can learn about the polluters
                     in your neighborhood.
                 </p>
@@ -441,6 +450,10 @@
                         Perform critical independent academic and legal research
                     </li>
                     <li>
+                        Hold regulators accountable to the public (instead of industry) by
+                        creating an independent record of complaints.
+                    </li>
+                    <li>
                         Help you connect and organize with other concerned members of your community.
                     </li>
                 </ul>
@@ -454,24 +467,7 @@
                 </p>
                 <p>
                     If you have other ideas about what we should do, please send an email
-                    to
-                    <script type="text/javascript">
-                        first = "pollution";
-                        second = "reports";
-                        domain = "gmail";
-                        suffix = "com";
-
-                        combined = first + second + "@" + domain + "." + suffix;
-
-                        cmd1 = "mai"
-                        cmd2 = "lto:"
-
-                        document.write(
-                            '<a h' +'re' +'f="' + cmd1 + cmd2 + combined +'">'
-                            + combined + '</' + 'a>'
-                        );
-
-                    </script>.
+                    to {{ macros.bot_unreadable_email_link() }}
                 </p>
             </div>
         </div>
@@ -479,7 +475,7 @@
     </div>
 
     <footer id="footer" class="container-fluid bg-color-white-transparent p-1">
-        <h6 class="font-black text-center header-font font-size-x-small"><i class="fa fa-creative-commons" aria-hidden="true"></i>{{ moment().format('YYYY') }}, Communities for a Better Environment</h6>
+        <h6 class="font-black text-center header-font font-size-x-small"><i class="fa fa-creative-commons" aria-hidden="true"></i>{{ moment().format('YYYY') }}, Communities for a Better Environment & G. Sloane Law</h6>
     </footer>
 </div>
 

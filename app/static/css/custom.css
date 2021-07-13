@@ -140,11 +140,11 @@ body {
     background-color: var(--custom-accent-dark);
 }
 
-#submit-report, #ok-report-submitted {
+#submit-report, #ok-report-submitted, #ok-report-failed{
     background-color: var(--custom-accent-dark-semi-transparent);
 }
 
-#submit-report:hover, #submit-report:focus, #ok-report-submitted:hover, #ok-report-submitted:focus {
+#submit-report:hover, #submit-report:focus, #ok-report-submitted:hover, #ok-report-submitted:focus, #ok-report-failed:focus{
     background-color: var(--custom-accent-dark);
 }
 

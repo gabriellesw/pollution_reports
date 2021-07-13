@@ -1,0 +1,17 @@
+{% macro bot_unreadable_email_link() %}
+                <script type="text/javascript">
+                    first = "pollution";
+                    second = "reports";
+                    domain = "gmail";
+                    suffix = "com";
+
+                    combined = first + second + "@" + domain + "." + suffix;
+
+                    cmd1 = "mai"
+                    cmd2 = "lto:"
+
+                    document.write(
+                        '<a h' +'re' +'f="' + cmd1 + cmd2 + combined +'">'
+                        + combined + '</' + 'a>.'
+                    );
+                </script>{% endmacro %}

@@ -3,7 +3,8 @@ import pathlib
 
 from oauth2client.service_account import ServiceAccountCredentials
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, current_app, request
+
 from config import Config
 from app.forms import ComplaintForm
 from app.models import Complaint, db
@@ -46,7 +47,7 @@ def _save_local(form, epa_conf):
 
 def _send_to_third_party(form):
     if CONFIG.DEBUG:
-        return "COMP-TEST"
+        return "#COMP-TEST1"
     third_party_form = ThirdPartyReport(form)
     confirmation_no = third_party_form.get_response()
     return confirmation_no
@@ -105,8 +106,7 @@ def process_form(form):
 
 
 @site.route("/", methods=["GET", "POST"])
-@site.route("/<conf_no>", methods=["GET", "POST"])
-def home(conf_no=None):
+def home():
     form = ComplaintForm()
     if form.validate_on_submit():
         conf_no = process_form(form)
@@ -116,7 +116,8 @@ def home(conf_no=None):
     return render_template(
         "site/main.html",
         form=form,
-        epa_confirmation_no=conf_no,
+        epa_confirmation_no=request.args.get("conf_no"),
+        error=request.args.get("error"),
         places_api_key=CONFIG.PLACES_API_KEY,
         recaptcha_public_key=CONFIG.RECAPTCHA_PUBLIC_KEY,
     )
@@ -125,3 +126,12 @@ def home(conf_no=None):
 @site.route('/favicon.ico')
 def favicon():
     return redirect(url_for("static", filename="icons/favicon.ico"))
+
+
+@site.app_errorhandler(Exception)
+def any_error(error):
+    """
+    Log the full stack trace privately and display a vague error page to user
+    """
+    current_app.logger.error(error, exc_info=True)
+    return redirect(url_for("site.home", error=404))

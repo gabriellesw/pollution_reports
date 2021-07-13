@@ -59,7 +59,7 @@ class ComplaintForm(FlaskForm):
 
     # Fields that aren't set by JavaScript
     pollution_type = SelectField(choices=CONFIG.pollution_types)
-    description = TextAreaField(validators=[Length(max=CONFIG.text_max)])
+    description = TextAreaField(validators=[InputRequired("A description of the pollution is required"), Length(max=CONFIG.text_max)])
     email = StringField(validators=[InputRequiredNA(), EmailNA()])
     confirm_email = StringField(validators=[InputRequiredNA(), ConfirmEmail()])
     phone = StringField(validators=[Optional(), Phone()])
