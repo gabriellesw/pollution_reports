@@ -6,6 +6,7 @@ click==7.1.2
 dnspython==2.1.0
 email-validator==1.1.2
 Flask==1.1.2
+Flask-Limiter==1.4
 Flask-Migrate==2.7.0
 Flask-Moment==0.11.0
 Flask-SQLAlchemy==2.5.0
@@ -19,6 +20,7 @@ idna==2.10
 importlib-metadata==3.7.3
 itsdangerous==1.1.0
 Jinja2==2.11.3
+limits==1.5.1
 lxml==4.6.3
 Mako==1.1.4
 MarkupSafe==1.1.1
