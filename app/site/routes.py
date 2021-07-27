@@ -58,7 +58,7 @@ def _save_local(form, epa_conf):
 
 
 def _send_to_third_party(form):
-    if CONFIG.DEBUG:
+    if CONFIG.TESTING:
         return "#COMP-TEST1"
     third_party_form = ThirdPartyReport(form)
     confirmation_no = third_party_form.get_response()
